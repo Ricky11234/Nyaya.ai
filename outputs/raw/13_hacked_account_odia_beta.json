@@ -1,0 +1,72 @@
+{
+  "case": {
+    "id": "13_hacked_account_odia_beta",
+    "what_it_tests": "Odia (beta language); account hacked and impersonation",
+    "mode": "normal",
+    "turns": [
+      "ମୋ ଫେସବୁକ୍ ଆକାଉଣ୍ଟ ହ୍ୟାକ୍ ହୋଇଯାଇଛି ଏବଂ କେହି ମୋ ନାଁରେ ମୋ ସାଙ୍ଗମାନଙ୍କଠାରୁ ଟଙ୍କା ମାଗୁଛି। ମୁଁ କ'ଣ କରିବି?"
+    ],
+    "expect": {
+      "language": "Odia",
+      "source": [
+        "vectorstore",
+        "external"
+      ],
+      "escalation": false,
+      "mention_any": [
+        "1930",
+        "cybercrime.gov.in",
+        "66C",
+        "66D"
+      ]
+    }
+  },
+  "turns": [
+    {
+      "input": "ମୋ ଫେସବୁକ୍ ଆକାଉଣ୍ଟ ହ୍ୟାକ୍ ହୋଇଯାଇଛି ଏବଂ କେହି ମୋ ନାଁରେ ମୋ ସାଙ୍ଗମାନଙ୍କଠାରୁ ଟଙ୍କା ମାଗୁଛି। ମୁଁ କ'ଣ କରିବି?",
+      "result": {
+        "answer": "Error: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in organization `org_01kna4v2pveeqte4fhn8k8mctr` service tier `on_demand` on tokens per day (TPD): Limit 200000, Used 199991, Requested 2577. Please try again in 18m29.376s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}",
+        "source_type": "system",
+        "confidence": "LOW",
+        "reply_language": "Odia",
+        "escalations": [],
+        "citations": []
+      },
+      "seconds": 58.0
+    }
+  ],
+  "case_file": {
+    "problem_type": "Account hacked and fraudulent money requests",
+    "summary": "The user’s Facebook account has been hacked. Someone is requesting money from the user’s friends in the user’s name.",
+    "other_party": "Unknown hacker",
+    "timeline": [
+      {
+        "date": "not mentioned",
+        "event": "Facebook account was hacked and someone is requesting money from friends in the user’s name."
+      }
+    ],
+    "amount_involved": "not mentioned",
+    "proof_you_have": [
+      "not mentioned"
+    ],
+    "proof_to_collect": [
+      "not mentioned"
+    ],
+    "what_you_want": "To secure the Facebook account and stop the fraudulent money requests.",
+    "questions_to_ask_you": [
+      "ଫେସବୁକ୍ ଆକାଉଣ୍ଟ ହ୍ୟାକ୍ ହେବାର ତାରିଖ ଓ ସମୟ ଜଣାଅନ୍ତୁ?",
+      "ଏହି ଅନୁରୋଧ ଗୁଡିକ ର ରାଶି ଓ ତାରିଖ ଜଣାଅନ୍ତୁ?",
+      "ଆପଣ ଫେସବୁକ୍ ର ହେଲ୍ପ ଡେସ୍କ ରେ ରିପୋର୍ଟ ଦେଇଛନ୍ତି କି?",
+      "ଏହି ହ୍ୟାକର ର ଚିହ୍ନ ଓ ତାଙ୍କ ଦ୍ୱାରା ମେସେଜ ର ଏକ ନମୁନା ରଖିଛନ୍ତି କି?"
+    ]
+  },
+  "draft": null,
+  "checks": {
+    "language": true,
+    "source": false,
+    "lawyer_warning": true,
+    "all_citations_verified": true,
+    "mentions": false
+  },
+  "error": ""
+}

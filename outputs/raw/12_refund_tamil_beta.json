@@ -1,0 +1,85 @@
+{
+  "case": {
+    "id": "12_refund_tamil_beta",
+    "what_it_tests": "Tamil (beta language); consumer refund",
+    "mode": "normal",
+    "turns": [
+      "நான் ஆன்லைனில் ஒரு ஜோடி காலணி வாங்கினேன். தவறான அளவு வந்தது, அதை திருப்பி அனுப்பினேன். ஒரு மாதமாகியும் பணம் திரும்ப வரவில்லை. நான் என்ன செய்ய வேண்டும்?"
+    ],
+    "expect": {
+      "language": "Tamil",
+      "source": [
+        "vectorstore",
+        "external"
+      ],
+      "escalation": false,
+      "mention_any": [
+        "e-Jagriti",
+        "e‑Jagriti",
+        "1915",
+        "District Commission"
+      ]
+    }
+  },
+  "turns": [
+    {
+      "input": "நான் ஆன்லைனில் ஒரு ஜோடி காலணி வாங்கினேன். தவறான அளவு வந்தது, அதை திருப்பி அனுப்பினேன். ஒரு மாதமாகியும் பணம் திரும்ப வரவில்லை. நான் என்ன செய்ய வேண்டும்?",
+      "result": {
+        "answer": "Error: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in organization `org_01kna4v2pveeqte4fhn8k8mctr` service tier `on_demand` on tokens per day (TPD): Limit 200000, Used 199356, Requested 1231. Please try again in 4m13.584s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}",
+        "source_type": "system",
+        "confidence": "LOW",
+        "reply_language": "English",
+        "escalations": [],
+        "citations": []
+      },
+      "seconds": 0.2
+    }
+  ],
+  "case_file": {
+    "problem_type": "Refund not received for returned product",
+    "summary": "I purchased a pair of shoes online. The wrong size arrived, I returned it, but after a month the refund has not been received.",
+    "other_party": "online retailer",
+    "timeline": [
+      {
+        "date": "not mentioned",
+        "event": "Purchased a pair of shoes online"
+      },
+      {
+        "date": "not mentioned",
+        "event": "Received wrong size"
+      },
+      {
+        "date": "not mentioned",
+        "event": "Returned the shoes"
+      },
+      {
+        "date": "not mentioned",
+        "event": "Refund not received after a month"
+      }
+    ],
+    "amount_involved": "not mentioned",
+    "proof_you_have": [],
+    "proof_to_collect": [
+      "Return shipping receipt",
+      "Order confirmation",
+      "Communication with seller about the return",
+      "Proof of payment"
+    ],
+    "what_you_want": "Refund of the purchase amount",
+    "questions_to_ask_you": [
+      "What was the order number?",
+      "What is the exact amount paid?",
+      "Do you have any communication with the seller regarding the return?",
+      "Do you have the return shipping receipt?"
+    ]
+  },
+  "draft": null,
+  "checks": {
+    "language": false,
+    "source": false,
+    "lawyer_warning": true,
+    "all_citations_verified": true,
+    "mentions": false
+  },
+  "error": ""
+}

@@ -1,0 +1,121 @@
+{
+  "case": {
+    "id": "04_upi_qr_fraud_hinglish",
+    "what_it_tests": "Hinglish cyber fraud; urgency (1930); cyber complaint draft",
+    "mode": "normal",
+    "turns": [
+      "Kal OLX pe kisi ne buyer ban ke QR code bheja, bola scan karo paise aa jayenge. Maine scan kiya aur mere account se 35,000 kat gaye. Ab kya karun?"
+    ],
+    "expect": {
+      "language": "Hinglish",
+      "source": [
+        "vectorstore",
+        "external"
+      ],
+      "escalation": false,
+      "mention_any": [
+        "1930",
+        "cybercrime.gov.in"
+      ]
+    },
+    "draft": "Cyber crime complaint"
+  },
+  "turns": [
+    {
+      "input": "Kal OLX pe kisi ne buyer ban ke QR code bheja, bola scan karo paise aa jayenge. Maine scan kiya aur mere account se 35,000 kat gaye. Ab kya karun?",
+      "result": {
+        "answer": "- QR code ka screenshot, bank statement aur OLX chat ka record turant save karo.  \n- Apne bank ko call karke transaction ko block/ reverse karne ki request karo aur fraud ka notice de.  \n- Nearest police station me FIR file karo aur cyber cell ko inform karo; aap 1930 pe call karke cybercrime.gov.in pe online complaint bhi daal sakte ho.  \n- OLX app/support se seller ka profile report karo, taki unka account suspend ho sake.  \n- Saare saboot (chat logs, QR image, bank slip) ek folder me rakho, future legal action ke liye ready raho.  \n\n**Based on: Information Technology Act, 2000**",
+        "source_type": "vectorstore",
+        "confidence": "HIGH",
+        "reply_language": "Hinglish",
+        "escalations": [],
+        "citations": [
+          {
+            "type": "act",
+            "value": "Information Technology Act, 2000",
+            "act": null,
+            "status": "verified"
+          }
+        ]
+      },
+      "seconds": 17.9
+    }
+  ],
+  "case_file": {
+    "problem_type": "Unauthorized debit due to QR code scam",
+    "summary": "The user received a QR code from a person claiming to be a buyer on OLX and was asked to scan it. After scanning, Rs 35,000 was deducted from the user's bank account.",
+    "other_party": "a person posing as a buyer on OLX",
+    "timeline": [
+      {
+        "date": "not mentioned",
+        "event": "Received QR code from alleged buyer on OLX and scanned it, leading to a deduction of Rs 35,000 from the account."
+      }
+    ],
+    "amount_involved": "Rs 35,000",
+    "proof_you_have": [],
+    "proof_to_collect": [
+      "Bank statement showing the Rs 35,000 debit",
+      "Screenshot of the OLX chat conversation where the QR code was sent",
+      "Copy of the QR code image or receipt of scanning",
+      "Any acknowledgment or transaction reference from the bank"
+    ],
+    "what_you_want": "Recovery of the Rs 35,000 and appropriate action against the scammer.",
+    "questions_to_ask_you": [
+      "Exact date aur time jab aapne QR code scan kiya?",
+      "Kaunse bank ka account hai aur transaction reference number kya hai?",
+      "Kya aapke paas OLX chat ka screenshot ya QR code ka image hai?",
+      "Kya aapne police ya bank ko pehle se FIR ya complaint file ki hai?"
+    ]
+  },
+  "draft": {
+    "text": "**How to use this draft**  \nIs draft ko apne details se fill karo – date, time, bank name, account no., UTR/Reference number, aur scammer ka koi bhi info jo tumhare paas ho. Saare proof (bank statement, OLX chat screenshot, QR code image) attach karna na bhoolna. Ek copy safe rakh lo aur filing se pehle ek lawyer se review karwa lo.  \n\n---  \n\n**To,**  \nThe Officer-in-Charge,  \n[LOCAL CYBER CELL / CYBERCRIME CELL]  \n[ADDRESS OF CYBER CELL]  \n\n**Subject:** Complaint for Unauthorized Debit through QR Code Scam and Request for Investigation, Freezing of Funds and Recovery of Amount  \n\n**Respected Sir/Madam,**  \n\n1. **Complainant Details**  \n   - Name: **[YOUR FULL NAME]**  \n   - Father’s/Husband’s Name: **[FATHER/HUSBAND NAME]**  \n   - Address: **[YOUR FULL ADDRESS]**  \n   - Mobile No.: **[YOUR MOBILE NUMBER]**  \n   - Email ID: **[YOUR EMAIL ADDRESS]**  \n\n2. **Bank Details**  \n   - Bank Name: **[BANK NAME]**  \n   - Account Number: **[ACCOUNT NUMBER]**  \n   - IFSC Code: **[IFSC CODE]**  \n\n3. **Transaction Details**  \n   - Date of QR‑code scan: **[DATE OF SCAN]**  \n   - Approximate Time of scan: **[TIME OF SCAN]**  \n   - Amount Debited: **Rs 35,000**  \n   - Transaction Reference / UTR / ID: **[UTR/REFERENCE NUMBER]**  \n\n4. **Facts of the Case**  \n   - On the above date, I was negotiating the sale of a used item on the OLX platform.  \n   - A prospective buyer, claiming to be interested in purchasing the item, sent me a QR code through the OLX chat.  \n   - Trusting the buyer, I scanned the QR code using my mobile banking application, believing it to be a legitimate payment request.  \n   - Immediately after scanning, an amount of **Rs 35,000** was debited from my bank account (details shown in the attached bank statement).  \n   - The QR code was a fraudulent instrument; the person behind it has no intention of paying for the item.  \n\n5. **Suspect Details (as far as known)**  \n   - Name / Username on OLX: **[SCAMMER OLX USERNAME]** (if known)  \n   - Mobile Number / Contact: **[SCAMMER CONTACT NUMBER]** (if known)  \n   - Any other identifying information: **[ANY OTHER INFO]**  \n\n6. **Evidence Attached**  \n   - Bank statement showing the unauthorized debit of Rs 35,000 with the above UTR/reference.  \n   - Screenshot of the OLX chat conversation where the QR code was sent.  \n   - Copy of the QR code image / receipt of scanning (if available).  \n   - Any acknowledgment or transaction confirmation received from the bank.  \n\n7. **Legal Basis**  \n   The act of obtaining money by deception through a fraudulent QR code constitutes **cheating** under **Section 212 of the Bharatiya Nagarik Suraksha Sanhita, 2023**. The unauthorized debit from my account is a clear violation of this provision, and the offender is liable to prosecution and punishment as prescribed therein.  \n\n8. **Prayer / Relief Sought**  \n   In view of the foregoing, I respectfully request the Cyber Cell to:  \n\n   a. Register a formal complaint against the unknown perpetrator for the offence under Section 212, B.N.S. 2023.  \n   b. Initiate an investigation to identify and apprehend the person(s) responsible for the QR‑code scam.  \n   c. Issue a direction to my bank, **[BANK NAME]**, to **freeze the amount of Rs 35,000** (or any further proceeds) pending the outcome of the investigation, to prevent dissipation of the funds.  \n   d. Recover the debited amount of Rs 35,000 and ensure its restitution to my account.  \n   e. Take appropriate action against the offender(s) under the applicable provisions of the Bharatiya Nagarik Suraksha Sanhita, 2023, and any other relevant cyber‑crime statutes.  \n\n9. **Verification**  \n   I, **[YOUR FULL NAME]**, do hereby declare that the facts stated above are true and correct to the best of my knowledge and belief, and that no material fact has been concealed.  \n\n   **Date:** **[DATE]**  \n   **Place:** **[PLACE]**  \n\n   **Signature:** _______________________  \n\n**Enclosures:**  \n1. Bank statement (showing Rs 35,000 debit).  \n2. OLX chat screenshot.  \n3. QR code image / scanning receipt.  \n4. Any other relevant document.  \n\n[CHECK BEFORE SENDING: these references could not be verified in the law text: Section 212 of the Bharatiya Nagarik Suraksha Sanhita, 2023; Section 212; Section 202; Section 3]\n\n(Drafted with AI help by Nyaya.ai. Not legal advice. Please have a lawyer review it before filing.)",
+    "citations": [
+      {
+        "type": "section",
+        "value": "212",
+        "act": "Bharatiya Nagarik Suraksha Sanhita, 2023",
+        "status": "unverified"
+      },
+      {
+        "type": "section",
+        "value": "212",
+        "act": null,
+        "status": "unverified"
+      },
+      {
+        "type": "section",
+        "value": "202",
+        "act": null,
+        "status": "unverified"
+      },
+      {
+        "type": "section",
+        "value": "3",
+        "act": null,
+        "status": "unverified"
+      },
+      {
+        "type": "act",
+        "value": "Bharatiya Nagarik Suraksha Sanhita, 2023",
+        "act": null,
+        "status": "verified"
+      }
+    ],
+    "law_pages": [
+      "Bharatiya Nagarik Suraksha Sanhita, 2023, p.228",
+      "Bharatiya Nagarik Suraksha Sanhita, 2023, p.247",
+      "Code on Wages, 2019, p.25",
+      "Code on Wages, 2019, p.27",
+      "Bharatiya Nagarik Suraksha Sanhita, 2023, p.94",
+      "Bharatiya Nagarik Suraksha Sanhita, 2023, p.232"
+    ]
+  },
+  "checks": {
+    "language": true,
+    "source": true,
+    "lawyer_warning": true,
+    "all_citations_verified": true,
+    "mentions": true
+  },
+  "error": ""
+}

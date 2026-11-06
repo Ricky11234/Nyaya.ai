@@ -1,0 +1,65 @@
+{
+  "case": {
+    "id": "14_anticipatory_bail_professional",
+    "what_it_tests": "Professional mode: detailed answer with section and page citations from BNSS",
+    "mode": "professional",
+    "turns": [
+      "Under the BNSS 2023, what are the conditions and procedure for granting anticipatory bail?"
+    ],
+    "expect": {
+      "language": "English",
+      "source": [
+        "vectorstore",
+        "external"
+      ],
+      "escalation": true,
+      "mention_any": [
+        "482"
+      ]
+    }
+  },
+  "turns": [
+    {
+      "input": "Under the BNSS 2023, what are the conditions and procedure for granting anticipatory bail?",
+      "result": {
+        "answer": "Error: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in organization `org_01kna4v2pveeqte4fhn8k8mctr` service tier `on_demand` on tokens per day (TPD): Limit 200000, Used 199950, Requested 726. Please try again in 4m52.032s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}",
+        "source_type": "system",
+        "confidence": "LOW",
+        "reply_language": "English",
+        "escalations": [],
+        "citations": []
+      },
+      "seconds": 0.3
+    }
+  ],
+  "case_file": {
+    "problem_type": "Anticipatory bail query",
+    "summary": "The person is asking about the conditions and procedure for granting anticipatory bail under BNSS 2023.",
+    "other_party": "not mentioned",
+    "timeline": [
+      {
+        "date": "not mentioned",
+        "event": "not mentioned"
+      }
+    ],
+    "amount_involved": "not mentioned",
+    "proof_you_have": [],
+    "proof_to_collect": [],
+    "what_you_want": "Information on the conditions and procedure for granting anticipatory bail under BNSS 2023.",
+    "questions_to_ask_you": [
+      "Do you have a case number?",
+      "Do you know which court the case is pending in?",
+      "Do you have any documents related to the case?",
+      "Do you need help filing an anticipatory bail application?"
+    ]
+  },
+  "draft": null,
+  "checks": {
+    "language": true,
+    "source": false,
+    "lawyer_warning": false,
+    "all_citations_verified": true,
+    "mentions": false
+  },
+  "error": ""
+}

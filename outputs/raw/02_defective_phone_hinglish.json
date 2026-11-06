@@ -1,0 +1,144 @@
+{
+  "case": {
+    "id": "02_defective_phone_hinglish",
+    "what_it_tests": "Hinglish input and reply; warranty dispute; consumer complaint draft",
+    "mode": "normal",
+    "turns": [
+      "Maine Diwali sale mein 18000 ka phone liya tha, 2 hafte mein screen kharab ho gayi. Service center bol raha hai warranty mein nahi aayega kyunki physical damage hai, par maine phone giraya hi nahi. Kya karun?"
+    ],
+    "expect": {
+      "language": "Hinglish",
+      "source": [
+        "vectorstore",
+        "external"
+      ],
+      "escalation": false,
+      "mention_any": [
+        "consumer",
+        "commission",
+        "e-Jagriti",
+        "e‑Jagriti"
+      ]
+    },
+    "draft": "Consumer complaint"
+  },
+  "turns": [
+    {
+      "input": "Maine Diwali sale mein 18000 ka phone liya tha, 2 hafte mein screen kharab ho gayi. Service center bol raha hai warranty mein nahi aayega kyunki physical damage hai, par maine phone giraya hi nahi. Kya karun?",
+      "result": {
+        "answer": "- Apne phone ka bill, warranty card aur service centre ka written refusal ka photo/scan sambhal ke rakho.  \n- Phone ko ek independent authorised service centre ya technician se check karvao aur likhit report le lo ki damage “physical” nahi balki manufacturing defect hai.  \n- Agar service centre fir bhi warranty deny kare, to Consumer Protection Act, 2019 ke **Section 85** ke tahat service provider ko faulty ya deficient service dene ke liye zimmedar maana ja sakta hai.  \n- e‑Jagriti (e‑jagriti.gov.in) par complaint file karo; Diwali sale ka price ₹18,000 hone ki wajah se dispute District Commission ke jurisdiction mein aata hai (₹50 lakh tak).  \n- Complaint ke saath bill, warranty, aur technician ki report attach karo; agar zarurat pade to NALSA (15100) se free legal aid bhi le sakte ho.  \n\n**Based on: Consumer Protection Act, 2019**",
+        "source_type": "vectorstore",
+        "confidence": "HIGH",
+        "reply_language": "Hinglish",
+        "escalations": [],
+        "citations": [
+          {
+            "type": "section",
+            "value": "85",
+            "act": "Consumer Protection Act, 2019",
+            "status": "verified"
+          },
+          {
+            "type": "act",
+            "value": "Consumer Protection Act, 2019",
+            "act": null,
+            "status": "verified"
+          }
+        ]
+      },
+      "seconds": 7.0
+    }
+  ],
+  "case_file": {
+    "problem_type": "Warranty claim rejected for defective product",
+    "summary": "The user bought a phone for Rs 18,000 during a Diwali sale. Within two weeks the screen became damaged, and the service center refused warranty coverage citing physical damage.",
+    "other_party": "the phone's service center / retailer (no specific name provided)",
+    "timeline": [
+      {
+        "date": "not mentioned",
+        "event": "Purchased the phone for Rs 18,000 during a Diwali sale."
+      },
+      {
+        "date": "not mentioned",
+        "event": "Screen got damaged after two weeks of use."
+      },
+      {
+        "date": "not mentioned",
+        "event": "Service center denied warranty claim, stating the damage is physical."
+      }
+    ],
+    "amount_involved": "Rs 18,000",
+    "proof_you_have": [],
+    "proof_to_collect": [
+      "Original purchase receipt",
+      "Warranty card or certificate",
+      "Photographs of the damaged screen",
+      "Written response or report from the service center",
+      "Any email/SMS communication with the service center"
+    ],
+    "what_you_want": "Repair or replacement of the phone under warranty without any cost to the consumer.",
+    "questions_to_ask_you": [
+      "Phone ka exact brand aur model kya hai?",
+      "Purchase ka exact date aur bill ka copy aapke paas hai?",
+      "Service center ka naam aur location kya tha?",
+      "Kya aapke paas service center se koi written response ya report hai?"
+    ]
+  },
+  "draft": {
+    "text": "**How to use this draft**  \nIs draft ko apne details se fill karo – sabhi [PLACEHOLDERS] ko sahi info se replace karo, purchase receipt, warranty card, photos, service‑center ka response wagairah attach karna na bhoolna. Ek copy apne records ke liye rakh lo aur file karne se pehle ek lawyer se review karwa lo.  \n\n---  \n\n**Before the District Consumer Disputes Redressal Commission**  \n(Consumer Protection Act, 2019)  \n\n**Complaint No.:** [COMPLAINT NO.]  \n\n**Date:** [DATE]  \n\n---\n\n### 1. Parties  \n\n**Complainant:**  \nName: [YOUR FULL NAME]  \nAddress: [YOUR COMPLETE ADDRESS]  \nPhone No.: [YOUR PHONE NUMBER]  \nEmail: [YOUR EMAIL ADDRESS]  \n\n**Opposite Party (Service Provider / Retailer):**  \nName: [SERVICE CENTER / RETAILER NAME]  \nAddress: [SERVICE CENTER / RETAILER ADDRESS]  \nPhone No.: [SERVICE CENTER PHONE]  \n\n---\n\n### 2. Facts  \n\n1. The complainant purchased a mobile phone (brand & model: [PHONE BRAND & MODEL]) for Rs 18,000 during a Diwali sale on [DATE OF PURCHASE] from the opposite party. The purchase was evidenced by the original receipt (Annexure‑A).  \n\n2. The phone was supplied with a warranty card/certificate stating that any manufacturing defect would be repaired or the phone replaced at no cost to the consumer (Annexure‑B).  \n\n3. Within two weeks of normal usage, on or about [DATE OF DAMAGE], the screen of the phone became damaged without any external impact or mishandling by the complainant. Photographs of the damaged screen are annexed (Annexure‑C).  \n\n4. The complainant approached the opposite party’s authorized service centre for claim under the warranty. The service centre inspected the phone and, on [DATE OF REJECTION], denied the warranty claim, stating that the damage was “physical” and therefore not covered. A written response/report from the service centre is annexed (Annexure‑D).  \n\n5. The complainant has made several attempts to obtain a repair/replacement under the express warranty, including email/SMS communications dated [DATES OF COMMUNICATIONS] (Annexure‑E), all of which have been ignored or rejected.  \n\n---\n\n### 3. Cause of Action  \n\nThe cause of action arises under Chapter VI (Product Liability) of the Consumer Protection Act, 2019:  \n\n* **Section 82** – The complainant is entitled to file a product liability action for harm caused by a defective product.  \n\n* **Section 83** – The action may be brought against the product service provider (the opposite party) for a defect in the product.  \n\n* **Section 84(1)(d)** – The phone does not conform to the express warranty provided at the time of sale.  \n\n* **Section 85** – The service provider is liable because the service rendered (refusal to honour the warranty) is “defective… and does not conform to the express warranty or the terms and conditions of the contract.”  \n\nThe opposite party’s refusal to honour the warranty, despite the defect being covered, constitutes a breach of the express warranty and a deficiency in service, giving rise to liability under the above sections.  \n\n---\n\n### 4. Jurisdiction  \n\nThe value of the claim is Rs 18,000, which is within the pecuniary jurisdiction of the District Consumer Disputes Redressal Commission as per the Consumer Protection Act, 2019. The opposite party’s place of business is situated within the territorial jurisdiction of this Commission.  \n\n---\n\n### 5. Relief Sought  \n\nThe complainant respectfully prays that the Hon’ble Commission may be pleased to:  \n\n1. Direct the opposite party to repair the defective phone or replace it with a new phone of the same make, model and specifications, **without any cost** to the complainant, in accordance with the express warranty.  \n\n2. Award compensation of Rs [AMOUNT] for the inconvenience, mental agony and loss of use suffered by the complainant.  \n\n3. Impose costs of the proceedings on the opposite party.  \n\n4. Pass any other order(s) as deemed fit and proper in the interest of justice.  \n\n---\n\n### 6. List of Documents Annexed  \n\n| Sl. No. | Document | Description |\n|---------|----------|-------------|\n| 1 | Original Purchase Receipt | Proof of purchase for Rs 18,000 (Annexure‑A) |\n| 2 | Warranty Card / Certificate | Shows express warranty coverage (Annexure‑B) |\n| 3 | Photographs of Damaged Screen | Evidences the defect (Annexure‑C) |\n| 4 | Service Centre’s Written Response | Denial of warranty claim (Annexure‑D) |\n| 5 | Email / SMS Communications | Correspondence with service centre (Annexure‑E) |\n| 6 | Any other relevant document | [SPECIFY IF ANY] |\n\n---\n\n### 7. Verification  \n\nI, [YOUR FULL NAME], the complainant above, do hereby verify that the contents of this complaint are true to the best of my knowledge and belief, and that no material fact has been concealed.  \n\nVerified at [PLACE] on this [DATE] day of [MONTH], [YEAR].  \n\n**Signature of Complainant**  \n[YOUR FULL NAME]  \n\n---  \n\n*Prepared by:*  \n[YOUR NAME / LEGAL REPRESENTATIVE (if any)]  \n[ADDRESS]  \n[PHONE]  \n[EMAIL]  \n\n(Drafted with AI help by Nyaya.ai. Not legal advice. Please have a lawyer review it before filing.)",
+    "citations": [
+      {
+        "type": "section",
+        "value": "82",
+        "act": null,
+        "status": "verified"
+      },
+      {
+        "type": "section",
+        "value": "83",
+        "act": null,
+        "status": "verified"
+      },
+      {
+        "type": "section",
+        "value": "84",
+        "act": null,
+        "status": "verified"
+      },
+      {
+        "type": "section",
+        "value": "1",
+        "act": null,
+        "status": "verified"
+      },
+      {
+        "type": "section",
+        "value": "85",
+        "act": null,
+        "status": "verified"
+      },
+      {
+        "type": "act",
+        "value": "Consumer Protection Act, 2019",
+        "act": null,
+        "status": "verified"
+      }
+    ],
+    "law_pages": [
+      "Consumer Protection Act, 2019, p.31",
+      "Consumer Protection Act, 2019, p.32",
+      "Consumer Protection Act, 2019, p.8",
+      "Consumer Protection Act, 2019, p.31",
+      "Consumer Protection Act, 2019, p.20",
+      "Consumer Protection Act, 2019, p.30"
+    ]
+  },
+  "checks": {
+    "language": true,
+    "source": true,
+    "lawyer_warning": true,
+    "all_citations_verified": true,
+    "mentions": true
+  },
+  "error": ""
+}

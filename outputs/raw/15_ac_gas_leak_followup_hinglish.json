@@ -1,0 +1,99 @@
+{
+  "case": {
+    "id": "15_ac_gas_leak_followup_hinglish",
+    "what_it_tests": "Two Hinglish turns: the second asks about the time limit and needs turn 1",
+    "mode": "normal",
+    "turns": [
+      "Flipkart se AC liya tha, installation ke 3 din baad gas leak ho gaya aur company repair nahi kar rahi.",
+      "Kitne time ke andar complaint karni padegi?"
+    ],
+    "expect": {
+      "language": "Hinglish",
+      "source": [
+        "vectorstore",
+        "external"
+      ],
+      "escalation": false,
+      "mention_any": [
+        "2 saal",
+        "do saal",
+        "two years",
+        "2 years",
+        "2 varsh"
+      ]
+    }
+  },
+  "turns": [
+    {
+      "input": "Flipkart se AC liya tha, installation ke 3 din baad gas leak ho gaya aur company repair nahi kar rahi.",
+      "result": {
+        "answer": "Error: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in organization `org_01kna4v2pveeqte4fhn8k8mctr` service tier `on_demand` on tokens per day (TPD): Limit 200000, Used 199912, Requested 733. Please try again in 4m38.64s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}",
+        "source_type": "system",
+        "confidence": "LOW",
+        "reply_language": "English",
+        "escalations": [],
+        "citations": []
+      },
+      "seconds": 0.2
+    },
+    {
+      "input": "Kitne time ke andar complaint karni padegi?",
+      "result": {
+        "answer": "Error: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in organization `org_01kna4v2pveeqte4fhn8k8mctr` service tier `on_demand` on tokens per day (TPD): Limit 200000, Used 199912, Requested 834. Please try again in 5m22.272s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}",
+        "source_type": "system",
+        "confidence": "LOW",
+        "reply_language": "English",
+        "escalations": [],
+        "citations": []
+      },
+      "seconds": 0.1
+    }
+  ],
+  "case_file": {
+    "problem_type": "Defective AC causing gas leak, repair not provided",
+    "summary": "The person bought an AC from Flipkart. Three days after installation, a gas leak occurred and the company is not repairing it.",
+    "other_party": "Flipkart",
+    "timeline": [
+      {
+        "date": "not mentioned",
+        "event": "purchased AC from Flipkart"
+      },
+      {
+        "date": "not mentioned",
+        "event": "installation of AC"
+      },
+      {
+        "date": "not mentioned",
+        "event": "gas leak occurred 3 days after installation"
+      },
+      {
+        "date": "not mentioned",
+        "event": "company not repairing the AC"
+      }
+    ],
+    "amount_involved": "not mentioned",
+    "proof_you_have": [],
+    "proof_to_collect": [
+      "purchase receipt or order confirmation",
+      "installation report or receipt",
+      "photos or videos of the gas leak",
+      "communication records with Flipkart regarding the issue"
+    ],
+    "what_you_want": "The company should repair the AC and address the gas leak promptly.",
+    "questions_to_ask_you": [
+      "When did you purchase the AC?",
+      "Do you have a receipt or order number?",
+      "Have you communicated with Flipkart about the issue?",
+      "Do you have any photos or evidence of the gas leak?"
+    ]
+  },
+  "draft": null,
+  "checks": {
+    "language": false,
+    "source": false,
+    "lawyer_warning": true,
+    "all_citations_verified": true,
+    "mentions": false
+  },
+  "error": ""
+}

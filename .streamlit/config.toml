@@ -1,0 +1,7 @@
+# Nyaya.ai colours (stamp paper). The full styling is in src/ui/theme.py.
+[theme]
+base = "light"
+primaryColor = "#A12B2F"
+backgroundColor = "#EAF0E6"
+secondaryBackgroundColor = "#DCE6D6"
+textColor = "#1D2B45"

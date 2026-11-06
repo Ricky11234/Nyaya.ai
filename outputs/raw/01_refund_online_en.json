@@ -1,0 +1,126 @@
+{
+  "case": {
+    "id": "01_refund_online_en",
+    "what_it_tests": "Core consumer case in English; case file and a legal notice draft",
+    "mode": "normal",
+    "turns": [
+      "I ordered a mixer grinder from an online seller for Rs 4,500 on 3 August. It arrived broken. I returned it on 6 August and they still haven't refunded me after 2 months, even though I sent 5 emails. I have the order invoice and the courier return receipt. What can I do?"
+    ],
+    "expect": {
+      "language": "English",
+      "source": [
+        "vectorstore",
+        "external"
+      ],
+      "escalation": false,
+      "mention_any": [
+        "District Commission",
+        "e-Jagriti",
+        "e‑Jagriti",
+        "1915"
+      ]
+    },
+    "draft": "Legal notice"
+  },
+  "turns": [
+    {
+      "input": "I ordered a mixer grinder from an online seller for Rs 4,500 on 3 August. It arrived broken. I returned it on 6 August and they still haven't refunded me after 2 months, even though I sent 5 emails. I have the order invoice and the courier return receipt. What can I do?",
+      "result": {
+        "answer": "- Keep your invoice, the courier return receipt, and copies of all five reminder emails as proof.  \n- File an online consumer complaint on **e‑Jagriti** (e‑jagriti.gov.in) and attach the proof.  \n- The District Consumer Commission (it handles cases up to Rs 50 lakh) will first try to settle the dispute through mediation.  \n- If the seller still does not refund, the Commission can order the seller to return your Rs 4,500.  \n- You can follow the case on the portal and, if needed, ask the Commission to enforce the refund order.  \n\n**Based on: Consumer Protection Act, 2019**",
+        "source_type": "vectorstore",
+        "confidence": "HIGH",
+        "reply_language": "English",
+        "escalations": [],
+        "citations": [
+          {
+            "type": "act",
+            "value": "Consumer Protection Act, 2019",
+            "act": null,
+            "status": "verified"
+          }
+        ]
+      },
+      "seconds": 5.0
+    }
+  ],
+  "case_file": {
+    "problem_type": "Refund not given for defective product",
+    "summary": "The user ordered a mixer grinder for Rs 4,500 on 3 August, received it broken and returned it on 6 August. After sending five emails, the seller has not refunded the amount even after two months.",
+    "other_party": "online seller (name not mentioned)",
+    "timeline": [
+      {
+        "date": "3 August",
+        "event": "Ordered a mixer grinder for Rs 4,500"
+      },
+      {
+        "date": "6 August",
+        "event": "Returned the broken product"
+      },
+      {
+        "date": "not mentioned",
+        "event": "Sent five follow‑up emails requesting refund"
+      },
+      {
+        "date": "not mentioned",
+        "event": "No refund received after two months"
+      }
+    ],
+    "amount_involved": "Rs 4,500",
+    "proof_you_have": [
+      "order invoice",
+      "courier return receipt"
+    ],
+    "proof_to_collect": [
+      "copies of all email correspondence with the seller",
+      "order confirmation email or screenshot showing order details and order number",
+      "bank statement or transaction receipt showing payment of Rs 4,500",
+      "any response (or lack thereof) from the seller’s customer support"
+    ],
+    "what_you_want": "A full refund of Rs 4,500 from the seller",
+    "questions_to_ask_you": [
+      "What is the name or website of the online seller?",
+      "Do you have an order or transaction number for this purchase?",
+      "When was the last email you sent to the seller?",
+      "Have you received any reply from the seller, even an automated one?"
+    ]
+  },
+  "draft": {
+    "text": "**How to use this draft**  \n1. Replace every bracketed item (e.g., [YOUR FULL NAME]) with the correct details.  \n2. Attach copies of the order invoice, courier return receipt, email thread, and payment proof.  \n3. Keep a signed copy for your records.  \n4. Have a qualified lawyer review the notice before you send it or file any suit.  \n\n---  \n\n**LEGAL NOTICE**  \n\n**Date:** [DATE OF NOTICE]  \n\n**To,**  \n[SELLER NAME / WEBSITE]  \n[SELLER’S ADDRESS]  \n\n**From,**  \n[YOUR FULL NAME]  \n[YOUR ADDRESS]  \n[YOUR CONTACT NUMBER / EMAIL]  \n\n---\n\n### 1.  Subject: Demand for Refund of Rs 4,500 for Defective Mixer Grinder  \n\n---\n\n### 2.  Facts  \n\n1. On **3 August [Year]**, I placed an order for a mixer grinder (Order ID: **[ORDER ID]**) through your online platform at a price of **Rs 4,500**.  \n2. The product was delivered in a broken condition, and I returned the same to you on **6 August [Year]**, as evidenced by the attached courier return receipt.  \n3. Following the return, I sent **five separate e‑mail reminders** (copies attached) requesting the refund of the purchase price.  \n4. Despite the lapse of **two months** since the return, no refund has been credited to my bank account, nor have I received any substantive response from your customer‑service team.  \n\n---\n\n### 3.  Legal Grounds  \n\n1. Under **Section 85** of the *Consumer Protection Act, 2019*, a product service provider is liable where the service (sale of goods) is “faulty or imperfect or deficient… required to be provided… under any contract”. The mixer grinder supplied by you was defective, and you have failed to remedy the defect by refunding the purchase price.  \n\n2. Further, **Section 86** of the same Act makes a **product seller** liable when he has exercised substantial control over the product’s design, testing, packaging or labeling, or when the seller fails to honour the contract. Your refusal to refund constitutes a breach of the contract and a violation of the consumer’s statutory rights.  \n\n3. Accordingly, you are required to refund the full amount of **Rs 4,500** (plus any applicable interest) within **fifteen (15) days** from the receipt of this notice, failing which I shall be compelled to institute appropriate proceedings before the **District Consumer Disputes Redressal Commission** (or any other competent forum) for recovery of the amount, compensation for mental agony, and costs of the action, as empowered by the *Consumer Protection Act, 2019*.  \n\n---\n\n### 4.  Relief Sought  \n\n1. Immediate refund of **Rs 4,500** to my bank account (details provided below).  \n2. Interest on the delayed amount at the prevailing bank rate from **6 August [Year]** until actual payment.  \n3. Recovery of costs incurred in sending this notice and any further legal expenses, if the matter proceeds to litigation.  \n\n---\n\n### 5.  Mode of Payment  \n\nPlease transfer the amount to the following bank account:  \n\n- **Account Name:** [YOUR BANK ACCOUNT NAME]  \n- **Account Number:** [YOUR ACCOUNT NUMBER]  \n- **IFSC Code:** [IFSC CODE]  \n\nKindly acknowledge receipt of this notice and confirm the date of refund within the stipulated period.  \n\n---\n\n### 6.  Consequence of Non‑Compliance  \n\nIf the refund is not effected within **15 days** of the date of this notice, I will, without any further notice, file a complaint before the **District Consumer Disputes Redressal Commission** seeking the reliefs mentioned above, together with any additional reliefs the Commission may deem appropriate under the *Consumer Protection Act, 2019*.  \n\n---\n\n**Yours faithfully,**  \n\n_____________________________  \n[YOUR FULL NAME]  \n[Signature]  \n\n**Enclosures:**  \n1. Copy of Order Invoice  \n2. Courier Return Receipt  \n3. Email correspondence (all five reminders)  \n4. Bank statement/transaction receipt showing payment of Rs 4,500  \n\n---  \n\n(Drafted with AI help by Nyaya.ai. Not legal advice. Please have a lawyer review it before filing.)",
+    "citations": [
+      {
+        "type": "section",
+        "value": "85",
+        "act": "Consumer Protection Act, 2019",
+        "status": "verified"
+      },
+      {
+        "type": "section",
+        "value": "86",
+        "act": null,
+        "status": "verified"
+      },
+      {
+        "type": "act",
+        "value": "Consumer Protection Act, 2019",
+        "act": null,
+        "status": "verified"
+      }
+    ],
+    "law_pages": [
+      "Consumer Protection Act, 2019, p.20",
+      "Consumer Protection Act, 2019, p.32",
+      "Information Technology Act, 2000, p.19",
+      "Consumer Protection Act, 2019, p.31",
+      "Bharatiya Nagarik Suraksha Sanhita, 2023, p.229",
+      "Information Technology Act, 2000, p.22"
+    ]
+  },
+  "checks": {
+    "language": true,
+    "source": true,
+    "lawyer_warning": true,
+    "all_citations_verified": true,
+    "mentions": true
+  },
+  "error": ""
+}

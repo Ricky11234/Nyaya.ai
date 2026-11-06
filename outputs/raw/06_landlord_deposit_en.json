@@ -1,0 +1,75 @@
+{
+  "case": {
+    "id": "06_landlord_deposit_en",
+    "what_it_tests": "New Act: Model Tenancy Act. Must say it only applies where the state adopted it",
+    "mode": "normal",
+    "turns": [
+      "I vacated my rented flat in Pune on 30 June. The landlord refuses to return my Rs 60,000 security deposit, saying the walls need painting. I did no damage. I have the rent agreement and photos from move-out day. What can I do?"
+    ],
+    "expect": {
+      "language": "English",
+      "source": [
+        "vectorstore",
+        "external"
+      ],
+      "escalation": false,
+      "mention_any": [
+        "adopted",
+        "state",
+        "rent agreement"
+      ]
+    },
+    "draft": "Legal notice"
+  },
+  "turns": [
+    {
+      "input": "I vacated my rented flat in Pune on 30 June. The landlord refuses to return my Rs 60,000 security deposit, saying the walls need painting. I did no damage. I have the rent agreement and photos from move-out day. What can I do?",
+      "result": {
+        "answer": "Error: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in organization `org_01kna4v2pveeqte4fhn8k8mctr` service tier `on_demand` on tokens per day (TPD): Limit 200000, Used 199395, Requested 756. Please try again in 1m5.232s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}",
+        "source_type": "system",
+        "confidence": "LOW",
+        "reply_language": "English",
+        "escalations": [],
+        "citations": []
+      },
+      "seconds": 0.2
+    }
+  ],
+  "case_file": {
+    "problem_type": "Refund not given for security deposit",
+    "summary": "The tenant vacated a rented flat in Pune on 30 June and is owed a Rs 60,000 security deposit. The landlord refuses to return it, claiming the walls need painting, but the tenant asserts no damage was caused.",
+    "other_party": "the landlord of the rented flat",
+    "timeline": [
+      {
+        "date": "30 June",
+        "event": "Tenant vacated the rented flat"
+      },
+      {
+        "date": "not mentioned",
+        "event": "Landlord refuses to return Rs 60,000 security deposit, citing need to paint walls"
+      }
+    ],
+    "amount_involved": "Rs 60,000",
+    "proof_you_have": [
+      "rent agreement",
+      "photos from move-out day"
+    ],
+    "proof_to_collect": [
+      "landlord's written notice or communication about painting requirement",
+      "any receipts or invoices for painting",
+      "professional inspection report of the property"
+    ],
+    "what_you_want": "Refund of the Rs 60,000 security deposit",
+    "questions_to_ask_you": [
+      "Did the landlord give you any written notice about the walls needing painting?",
+      "Did you take photos of the walls before you moved out?",
+      "Did you sign a move‑out inspection report or any document confirming the condition of the flat?",
+      "Did you receive any communication from the landlord about the cost of painting?"
+    ]
+  },
+  "draft": null,
+  "checks": {
+    "ran": false
+  },
+  "error": "RateLimitError(\"Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in organization `org_01kna4v2pveeqte4fhn8k8mctr` service tier `on_demand` on tokens per day (TPD): Limit 200000, Used 199391, Requested 2408. Please try again in 12m57.168s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}\")"
+}
