@@ -1,29 +1,15 @@
-"""Quick local test of Nyaya.ai's language support.
-
-    python test_languages.py            # all cases (about 3-4 minutes, pauses for rate limits)
-    python test_languages.py 03 07      # only cases whose id starts with 03 or 07
-
-Each answer is saved, unedited, to outputs/language_tests/<id>.md and a
-summary table to outputs/language_tests/summary.md.
-
-The automatic check only looks at the *script* of the answer (e.g. are there
-Tamil letters in a Tamil answer, no Devanagari in a Hinglish answer). Whether
-the answer is actually correct and well written still needs a human read.
-"""
-
 import re
 import sys
 import time
 from pathlib import Path
 
-sys.stdout.reconfigure(encoding="utf-8")  # so Hindi/Tamil print on Windows
+sys.stdout.reconfigure(encoding="utf-8")
 
-from main import AgenticRAG, legal_pdfs  # noqa: E402
-from src.language import languages  # noqa: E402
+from main import AgenticRAG, legal_pdfs
+from src.language import languages
 
-SOURCES = legal_pdfs()  # every PDF in data/legal_pdfs
+SOURCES = legal_pdfs()
 
-# (id, turns, mode, dropdown choice, expected reply language)
 CASES = [
     ("01_english", ["I ordered a mixer online for Rs 4,500, it arrived broken, I returned it and the refund hasn't come for 2 months. What can I do?"], "normal", languages.AUTO, "English"),
     ("02_hinglish", ["Online order ka refund 2 mahine se nahi aaya, seller reply bhi nahi kar raha. Kya karun?"], "normal", languages.AUTO, "Hinglish"),
@@ -36,7 +22,6 @@ CASES = [
     ("09_professional_hinglish", ["BNSS mein anticipatory bail ki conditions kya hain?"], "professional", languages.AUTO, "Hinglish"),
 ]
 
-# Characters we expect to see in an answer in each language.
 SCRIPT = {
     "Hindi": r"[ऀ-ॿ]",
     "Bengali": r"[ঀ-৿]",
@@ -49,7 +34,6 @@ NON_LATIN = r"[ऀ-౿]"
 def script_ok(answer, lang):
     if lang in SCRIPT:
         return bool(re.search(SCRIPT[lang], answer))
-    # English and Hinglish should be in Roman letters only.
     return not re.search(NON_LATIN, answer)
 
 
@@ -86,7 +70,7 @@ def main():
         print(rows[-1])
 
         if i < len(cases) - 1:
-            time.sleep(12)  # stay under Groq free-tier rate limits
+            time.sleep(12)
 
     summary = ["# Language test summary", time.strftime("%Y-%m-%d %H:%M"), "",
                "| Case | Expected | Got | Language | Script | Source | Confidence | Time |",

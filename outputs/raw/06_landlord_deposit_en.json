@@ -25,20 +25,59 @@
     {
       "input": "I vacated my rented flat in Pune on 30 June. The landlord refuses to return my Rs 60,000 security deposit, saying the walls need painting. I did no damage. I have the rent agreement and photos from move-out day. What can I do?",
       "result": {
-        "answer": "Error: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in organization `org_01kna4v2pveeqte4fhn8k8mctr` service tier `on_demand` on tokens per day (TPD): Limit 200000, Used 199395, Requested 756. Please try again in 1m5.232s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}",
-        "source_type": "system",
+        "answer": "- Send the landlord a written notice asking for the full Rs 60,000 back, reminding him that the tenancy agreement does not allow any deduction for painting when there is no damage.  \n- Attach copies of the rent agreement, the move‑out photos, and any proof of payment of the deposit.  \n- Tell the landlord that, under the Model Tenancy Act, the security deposit must be returned within 15 days of the notice period ending, after deducting only genuine liabilities.  \n- If he still refuses, file an application with the local Rent Authority (or Rent Tribunal) for the return of the deposit and for any penalty the Act allows.  \n- Keep a copy of your notice, the landlord’s reply, and all supporting documents to show the Rent Authority.  \n\nBased on: Model Tenancy Act, 2021.\n\n⚠️ Not found in the sources: Under the Model Tenancy Act, the security deposit must be returned within 15 days of the notice period ending.; One can file an application with the Rent Tribunal for the return of the deposit.; The Act allows for a penalty for refusal to return the deposit.. Please double-check these points before acting on them.\n\n⚠️ Important: the Model Tenancy Act, 2021 is a model law. It applies only in states that have passed their own version of it. In other states (for example Maharashtra, Delhi or Karnataka) your state's rent law and your rent agreement decide the deposit and notice rules. Check which law applies in your state before relying on this, for example with free legal aid (NALSA 15100).",
+        "source_type": "vectorstore",
         "confidence": "LOW",
         "reply_language": "English",
         "escalations": [],
-        "citations": []
+        "citations": [
+          {
+            "type": "act",
+            "value": "Model Tenancy Act, 2021",
+            "act": null,
+            "status": "verified"
+          }
+        ],
+        "faithfulness": {
+          "score": 0.4,
+          "supported": 2,
+          "total": 5,
+          "unsupported": [
+            "Under the Model Tenancy Act, the security deposit must be returned within 15 days of the notice period ending.",
+            "One can file an application with the Rent Tribunal for the return of the deposit.",
+            "The Act allows for a penalty for refusal to return the deposit."
+          ],
+          "claims": [
+            {
+              "claim": "Under the Model Tenancy Act, the security deposit must be returned within 15 days of the notice period ending.",
+              "verdict": "NOT_SUPPORTED"
+            },
+            {
+              "claim": "The security deposit is returned after deducting only genuine liabilities.",
+              "verdict": "SUPPORTED"
+            },
+            {
+              "claim": "One can file an application with the local Rent Authority for the return of the deposit.",
+              "verdict": "SUPPORTED"
+            },
+            {
+              "claim": "One can file an application with the Rent Tribunal for the return of the deposit.",
+              "verdict": "NOT_SUPPORTED"
+            },
+            {
+              "claim": "The Act allows for a penalty for refusal to return the deposit.",
+              "verdict": "NOT_SUPPORTED"
+            }
+          ]
+        }
       },
-      "seconds": 0.2
+      "seconds": 4.0
     }
   ],
   "case_file": {
-    "problem_type": "Refund not given for security deposit",
-    "summary": "The tenant vacated a rented flat in Pune on 30 June and is owed a Rs 60,000 security deposit. The landlord refuses to return it, claiming the walls need painting, but the tenant asserts no damage was caused.",
-    "other_party": "the landlord of the rented flat",
+    "problem_type": "Security deposit not returned",
+    "summary": "The tenant vacated the rented flat in Pune on 30 June. The landlord refuses to return the Rs 60,000 security deposit, claiming the walls need painting, though the tenant asserts no damage and has the rent agreement and move‑out photos.",
+    "other_party": "Landlord",
     "timeline": [
       {
         "date": "30 June",
@@ -46,30 +85,64 @@
       },
       {
         "date": "not mentioned",
-        "event": "Landlord refuses to return Rs 60,000 security deposit, citing need to paint walls"
+        "event": "Landlord refuses to return the Rs 60,000 security deposit"
       }
     ],
     "amount_involved": "Rs 60,000",
     "proof_you_have": [
       "rent agreement",
-      "photos from move-out day"
+      "photos from move‑out day"
     ],
     "proof_to_collect": [
-      "landlord's written notice or communication about painting requirement",
-      "any receipts or invoices for painting",
-      "professional inspection report of the property"
+      "any written communication from the landlord about the deposit",
+      "receipts or proof of the deposit payment",
+      "any earlier photos or records showing the condition of the walls before move‑out"
     ],
-    "what_you_want": "Refund of the Rs 60,000 security deposit",
+    "what_you_want": "Refund of Rs 60,000 security deposit",
     "questions_to_ask_you": [
-      "Did the landlord give you any written notice about the walls needing painting?",
-      "Did you take photos of the walls before you moved out?",
-      "Did you sign a move‑out inspection report or any document confirming the condition of the flat?",
-      "Did you receive any communication from the landlord about the cost of painting?"
+      "Did you receive any written notice from the landlord about the deposit?",
+      "Do you have any receipts or proof of the deposit payment?",
+      "Did you take any photos of the walls before moving out?",
+      "Has the landlord provided any specific evidence of damage?"
     ]
   },
-  "draft": null,
-  "checks": {
-    "ran": false
+  "draft": {
+    "text": "**How to use this draft**  \n- Replace every bracketed item (e.g., [YOUR FULL NAME]) with the correct details.  \n- Attach copies of the rent agreement, move‑out photographs and any written communication you have with the landlord.  \n- Keep a signed copy for your records.  \n- Have a qualified lawyer review the notice before you send it or before initiating any court proceedings.  \n\n---  \n\n**LEGAL NOTICE**  \n\n**Date:** [DD Month YYYY]  \n\n**To,**  \n[LANDLORD’S FULL NAME]  \n[LANDLORD’S ADDRESS]  \n\n**From,**  \n[YOUR FULL NAME]  \n[YOUR CURRENT ADDRESS]  \n\n**Subject:** Demand for Refund of Security Deposit of Rs 60,000  \n\n---\n\n**1. Facts**  \n\n1.1. I, the above‑named tenant, entered into a written tenancy agreement with you on [DATE OF TENANCY AGREEMENT] for the residential premises situated at [FLAT ADDRESS, PUNE] (the “Premises”).  \n\n1.2. As per the agreement, I paid a security deposit of Rs 60,000 on [DATE OF DEPOSIT PAYMENT] (receipt attached).  \n\n1.3. I vacated the Premises on 30 June [YYYY] and handed over vacant possession to you on that date.  \n\n1.4. At the time of vacating, I ensured that the Premises were in the same condition as at the commencement of the tenancy, except for normal wear and tear. Photographs taken on the move‑out day (attached) confirm the condition of the walls and other fixtures.  \n\n1.5. Despite my compliance, you have refused to return the security deposit, alleging that the walls require painting. No written notice specifying any damage, nor any itemised cost of painting, has been provided to me.  \n\n**2. Legal Position**  \n\n2.1. Under the *Model Tenancy Act, 2021* (applicable in the State of Maharashtra), the security deposit “shall be refunded to the tenant on the date of taking over vacant possession of the premises from the tenant, after making due deduction of any liability of the tenant” (Section 2(2), p. 8).  \n\n2.2. Further, the Act provides that the landlord must refund the security deposit “within a period of fifteen days of the expiry of the notice period, after making due deduction of liability of the tenant, if any” (Section 10, p. 10).  \n\n2.3. In the present case, no liability on my part has been established. The alleged requirement of painting is not supported by any written claim, itemised estimate, or evidence of damage beyond normal wear and tear. Consequently, I am entitled to a full refund of the entire deposit of Rs 60,000.  \n\n**3. Demand**  \n\nIn view of the foregoing, I hereby demand that you:\n\n- Refund the full security deposit of Rs 60,000 (Rupees Sixty Thousand only) to me, **within fifteen (15) days** from the receipt of this notice, i.e., on or before [DATE – 15 DAYS FROM NOTICE DATE].  \n\n- Make the payment by way of a bank transfer to the following account:  \n  *Account Name:* [YOUR BANK ACCOUNT NAME]  \n  *Account Number:* [YOUR BANK ACCOUNT NUMBER]  \n  *IFSC Code:* [YOUR BANK IFSC]  \n\n**4. Consequence of Non‑Compliance**  \n\nIf the above amount is not received within the stipulated period, I shall be constrained to initiate appropriate legal proceedings before the competent Rent Court/Consumer Forum for recovery of the deposit, together with interest, costs of litigation, and any other relief that the forum may deem fit, without any further notice.  \n\n**5. Documents Attached**  \n\n- Copy of the signed tenancy agreement.  \n- Photographs of the Premises taken on the move‑out day.  \n- Receipt of security deposit payment (if available).  \n\n**6. Verification**  \n\nI, [YOUR FULL NAME], do hereby verify that the contents of this notice are true and correct to the best of my knowledge and belief.  \n\n**Signature:** _______________________  \n**Name:** [YOUR FULL NAME]  \n**Date:** [DD Month YYYY]  \n\n⚠️ Important: the Model Tenancy Act, 2021 is a model law. It applies only in states that have passed their own version of it. In other states (for example Maharashtra, Delhi or Karnataka) your state's rent law and your rent agreement decide the deposit and notice rules. Check which law applies in your state before relying on this, for example with free legal aid (NALSA 15100).\n\n[CHECK BEFORE SENDING: these references could not be verified in the law text: Section 2 of the Model Tenancy Act, 2021; Section 10]\n\n(Drafted with AI help by Nyaya.ai. Not legal advice. Please have a lawyer review it before filing.)",
+    "citations": [
+      {
+        "type": "section",
+        "value": "2",
+        "act": "Model Tenancy Act, 2021",
+        "status": "unverified"
+      },
+      {
+        "type": "section",
+        "value": "10",
+        "act": null,
+        "status": "unverified"
+      },
+      {
+        "type": "act",
+        "value": "Model Tenancy Act, 2021",
+        "act": null,
+        "status": "verified"
+      }
+    ],
+    "law_pages": [
+      "Model Tenancy Act, 2021, p.7",
+      "Model Tenancy Act, 2021, p.8",
+      "Model Tenancy Act, 2021, p.12",
+      "Model Tenancy Act, 2021, p.8",
+      "Model Tenancy Act, 2021, p.9",
+      "Model Tenancy Act, 2021, p.10"
+    ]
   },
-  "error": "RateLimitError(\"Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in organization `org_01kna4v2pveeqte4fhn8k8mctr` service tier `on_demand` on tokens per day (TPD): Limit 200000, Used 199391, Requested 2408. Please try again in 12m57.168s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}\")"
+  "checks": {
+    "language": true,
+    "source": true,
+    "lawyer_warning": true,
+    "all_citations_verified": true,
+    "mentions": true
+  },
+  "error": ""
 }

@@ -107,7 +107,11 @@ Fixed rules in code (`src/guards/guards.py`), not the model, decide when to warn
 
 Every section number, Act name and case name in an answer is checked in code against the text the answer was given: the retrieved law pages, or the web results. Anything not found there, or a real section credited to the wrong Act, is listed under the answer as **"Not verified"** and the confidence drops one level. Fixed, checked facts (helplines, e-Jagriti, consumer commission limits, which laws are in force) are given to the model so it doesn't have to remember them. Web fallback is limited to government and well-known legal sites.
 
-What the check can't catch: a real section that is described wrongly. That's why answers say what they're based on, and why the app tells people to confirm with a lawyer.
+### ✅ Fact Check (groundedness score)
+
+The citation check only covers section numbers, Act names and case names. A second check covers everything else: a separate model (Qwen 3.8 27B, set by `FACT_CHECK_MODEL`) lists each factual claim in the answer (rights, deadlines, amounts, penalties, which authority to approach, helplines) and marks each one as supported or not by the exact sources the answer was given. The app shows the score ("6/7 claims found in the sources") and lists any unsupported claim under the answer. Below 80% the confidence drops one level; below 50% it drops to Low. If the checker fails or hits a rate limit, the answer is still shown, marked "not checked".
+
+What the checks can't catch: the checker is itself a model, so it can miss a wrong claim or flag a correct one. That's why every flag is shown to the user rather than hidden, and why the app tells people to confirm with a lawyer.
 
 ### 📁 Case File and 📝 Drafting
 
@@ -167,9 +171,10 @@ User Response
 
 ## LLMs
 
-* GPT-OSS 120B on Groq (`openai/gpt-oss-120b`): rewriting, translation and answers
-* GPT-OSS 20B on Groq (`openai/gpt-oss-20b`): context evaluator
-* Both can be changed in `.env` with `LLM_MODEL` and `EVALUATOR_MODEL` (Groq retired the Llama 3.x models in Aug 2026)
+* GPT-OSS 120B on Groq (`openai/gpt-oss-120b`): rewriting, translation, answers and drafts. Groq's strongest production model.
+* GPT-OSS 20B on Groq (`openai/gpt-oss-20b`): context evaluator and case file. Fast, and on its own daily budget.
+* Qwen 3.8 27B on Groq (`qwen/qwen3.8-27b`, preview): the fact check, and automatic backup when the main model hits its daily limit. Running the fact check on a separate model keeps it off the other models' rate limits.
+* All of them can be changed in `.env` (`LLM_MODEL`, `EVALUATOR_MODEL`, `FALLBACK_MODEL`, `FACT_CHECK_MODEL`) without touching code. Groq retired the Llama 3.x models this project started on in Aug 2026, and the swap was a one-line change.
 
 ## Frameworks
 
@@ -291,6 +296,13 @@ python tests/run_cases.py 06 12     # only some cases
 python test_languages.py            # the 9 language cases
 ```
 
+To compare models, set one for this terminal window and save to its own folder (cmd shown; PowerShell uses `$env:LLM_MODEL="..."`):
+
+```bash
+set LLM_MODEL=qwen/qwen3.8-27b
+python tests/run_cases.py --out outputs/models/qwen3.8-27b
+```
+
 ## Troubleshooting
 
 | Problem | Fix |
@@ -320,8 +332,8 @@ TAVILY_API_KEY="your_tavily_api_key"
 
 # 🚧 Known Limitations
 
-* **Free-tier limits:** on Groq's free tier the app handles roughly 100-150 questions a day before it pauses.
-* **Numbers without a section aren't checked:** the citation check verifies section numbers, Act names and case names. A time limit or amount stated without a section (for example "within 15 days") can still be wrong.
+* **Free-tier limits:** on Groq's free tier each question uses roughly 6,000-8,000 tokens of the 200,000-token daily allowance, so the app handles about 25-30 questions a day before it pauses (a paid Groq tier removes this).
+* **The fact check is a model too:** numbers and deadlines are now checked against the sources, but by a smaller model that can occasionally miss a wrong claim or flag a correct one. It also adds a few thousand tokens per question.
 * **Regional languages are beta:** Bengali, Tamil and Odia passed our tests but have been tested less than English, Hinglish and Hindi. Other languages get an English reply.
 * **State laws aren't covered:** rent, stamp duty and many labour rules differ by state. The app says so, but it only has the central Acts listed above.
 * **Not a lawyer:** it gives legal information and drafts, not legal advice.

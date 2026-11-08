@@ -1,15 +1,3 @@
-"""Helping people act on their problem, not just understand it.
-
-build_case(): turns a messy story spread over several chat messages (in any
-              supported language) into a structured case file: what happened,
-              when, what proof they have, what is still missing.
-
-draft():      drafts the paperwork from that case file: a legal notice, a
-              consumer complaint, a cyber crime complaint, a reply to a notice,
-              or a complaint email. Missing facts become [PLACEHOLDERS] instead
-              of being made up, and every section cited is checked in code.
-"""
-
 import io
 import json
 import re
@@ -40,7 +28,7 @@ EMPTY_CASE = {
 
 
 def _friendly_source(raw):
-    from src.nodes.node import Nodes  # local import avoids a circular import
+    from src.nodes.node import Nodes
 
     low = Path(str(raw)).stem.lower()
     for key, name in Nodes.SOURCE_NAMES.items():

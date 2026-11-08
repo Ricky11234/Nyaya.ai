@@ -1,27 +1,14 @@
-"""Nyaya.ai look and feel, inspired by Indian stamp paper: the pale green,
-finely patterned paper that rent agreements and affidavits are printed on.
-
-    apply_theme()       call once, right after st.set_page_config()
-    hero(subtitle)      the stamp-paper header with the app name
-    loader(text)        the scales-of-justice loading animation (returns a
-                        placeholder; call .empty() on it when work is done)
-
-Optional photo: put an image at assets/hero.jpg (for example a free photo
-from Unsplash or Pexels) and it appears beside the title in the header. If
-the file is missing, the header simply has no photo.
-"""
-
 import base64
 from pathlib import Path
 
 import streamlit as st
 
-INK = "#1D2B45"        # ink navy: text and headings
-PAPER = "#EAF0E6"      # stamp-paper green: page background
-PAPER_DEEP = "#DCE6D6" # sidebar and quiet surfaces
-SHEET = "#FBFCF8"      # white sheet: answers and cards
-TAPE = "#A12B2F"       # court-file red tape: primary buttons, sparingly
-BRASS = "#A8853F"      # brass of the scales: rules and the loader
+INK = "#1D2B45"
+PAPER = "#EAF0E6"
+PAPER_DEEP = "#DCE6D6"
+SHEET = "#FBFCF8"
+TAPE = "#A12B2F"
+BRASS = "#A8853F"
 
 HERO_IMAGE = Path("assets/hero.jpg")
 
@@ -30,7 +17,6 @@ def _svg_uri(svg):
     return "data:image/svg+xml;base64," + base64.b64encode(svg.encode()).decode()
 
 
-# Guilloche band: overlapping waves, like the security border of stamp paper.
 _GUILLOCHE = _svg_uri(
     """<svg xmlns='http://www.w3.org/2000/svg' width='120' height='36' viewBox='0 0 120 36'>
 <g fill='none' stroke-width='0.8'>
@@ -43,7 +29,6 @@ _GUILLOCHE = _svg_uri(
 </g></svg>"""
 )
 
-# Faint fine-line texture for the whole page (barely visible, like paper).
 _PAPER_LINES = _svg_uri(
     """<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160' viewBox='0 0 160 160'>
 <g fill='none' stroke='#7E9C78' stroke-width='0.5' opacity='0.18'>
@@ -52,8 +37,6 @@ _PAPER_LINES = _svg_uri(
 </g></svg>"""
 )
 
-# Original drawing of the scales of justice. The beam tips back and forth;
-# each pan hangs from its end of the beam.
 _SCALES = f"""
 <svg class="ny-scales" viewBox="0 0 120 110" width="96" height="88" aria-hidden="true">
   <g stroke="{INK}" stroke-width="3" stroke-linecap="round" fill="none">
@@ -102,7 +85,6 @@ h1, h2, h3, .ny-title {{
 }}
 .block-container {{ max-width: 920px; }}
 
-/* Header: a strip of stamp paper */
 .ny-hero {{
   position: relative;
   border: 1px solid #C9D6C2;
@@ -122,7 +104,6 @@ h1, h2, h3, .ny-title {{
   display: grid; grid-template-columns: 1fr 1.15fr; gap: 1.4rem; align-items: center;
 }}
 .ny-hero-photo {{
-  /* !important: Streamlit's own img rules otherwise letterbox the photo */
   width: 100% !important; max-width: none !important; height: 210px !important;
   object-fit: cover !important; object-position: 60% 40%;
   border-radius: 4px; border: 1px solid #C9D6C2; display: block;
@@ -135,7 +116,6 @@ h1, h2, h3, .ny-title {{
 .ny-title .ny-dot {{ color: {TAPE}; }}
 .ny-sub {{ position: relative; margin: .35rem 0 0; font-size: 1.05rem; color: #3C4A63; max-width: 60ch; }}
 
-/* Answers read like a clean sheet */
 [data-testid="stChatMessage"] {{
   background: {SHEET};
   border: 1px solid #D3DECD;
@@ -148,14 +128,12 @@ h1, h2, h3, .ny-title {{
   border-radius: 6px;
 }}
 
-/* Chat box: a clean sheet, not an alarm */
 [data-testid="stChatInput"] > div, [data-testid="stChatInput"] textarea {{
   background: {SHEET} !important;
 }}
 [data-testid="stChatInput"] > div {{ border: 1px solid #B9C8B2 !important; }}
 [data-testid="stChatInput"] > div:focus-within {{ border-color: {BRASS} !important; }}
 
-/* Primary actions in red tape; everything else stays quiet */
 .stButton > button[kind="primary"], .stDownloadButton > button[kind="primary"] {{
   background: {TAPE}; border-color: {TAPE}; color: #fff;
 }}
@@ -164,7 +142,6 @@ h1, h2, h3, .ny-title {{
   outline: 3px solid {BRASS}; outline-offset: 2px;
 }}
 
-/* Scales-of-justice loader */
 .ny-loader {{
   display: flex; align-items: center; gap: 1rem;
   background: {SHEET};
@@ -200,7 +177,6 @@ def hero(subtitle):
             'alt="A lawyer at his desk talking with two clients">'
         )
         body_class += " ny-has-photo"
-    # One unindented line: Streamlit's Markdown treats indented HTML lines as a code block.
     html = (
         f'<div class="ny-hero"><div class="ny-band"></div><div class="{body_class}">'
         f'{text}{photo}</div></div>'
@@ -209,11 +185,6 @@ def hero(subtitle):
 
 
 def loader(text, note="Reading the law and checking every section I cite."):
-    """Shows the scales of justice while work runs. Usage:
-        box = loader("Weighing your case...")
-        ... long work ...
-        box.empty()
-    """
     box = st.empty()
     scales = " ".join(line.strip() for line in _SCALES.splitlines())
     box.markdown(

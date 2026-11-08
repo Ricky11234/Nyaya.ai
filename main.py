@@ -1,5 +1,3 @@
-"""Main application for Agentic RAG"""
-
 import json
 import sys
 from pathlib import Path
@@ -17,8 +15,6 @@ PDF_DIR = Path("data/legal_pdfs")
 
 
 def legal_pdfs():
-    """Every PDF in data/legal_pdfs. To add a law, drop its PDF there: the
-    search index is rebuilt automatically on the next start."""
     return sorted(str(p) for p in PDF_DIR.glob("*.pdf"))
 
 
@@ -38,8 +34,6 @@ class AgenticRAG:
 
         self.retriever = Retriever()
 
-        # The index remembers which PDFs it was built from; if the PDFs in
-        # data/legal_pdfs change, it is rebuilt instead of silently ignoring them.
         manifest = Path(self.retriever.INDEX_PATH) / "sources.json"
         wanted = sorted(Path(s).name for s in srcs)
         built_from = json.loads(manifest.read_text()) if manifest.exists() else None
@@ -104,6 +98,8 @@ class AgenticRAG:
 
         citations = result.get("citations", [])
 
+        faith = result.get("faithfulness")
+
         print("\nQuestion:")
         print(question)
 
@@ -116,22 +112,15 @@ class AgenticRAG:
     "confidence": confidence,
     "reply_language": reply_language,
     "escalations": escalations,
-    "citations": citations
+    "citations": citations,
+    "faithfulness": faith
 }
 
-    # ---------------------------------------------------------------- #
-    # Helping people act: case file and drafts
-    # ---------------------------------------------------------------- #
 
     def build_case(self, user_messages: list[str], language: str = "English") -> dict:
-        """Turns what the person said (any language) into a structured case file."""
-        # The smaller model: it does this well, and it has its own daily token
-        # budget on Groq, so a full test run fits in one day.
         return case_tools.build_case(Config.get_evaluator_llm(), user_messages, language)
 
     def draft(self, case: dict, doc_type: str, language: str = "English") -> dict:
-        """Drafts a legal notice / complaint / reply from the case file, citing
-        only law found by searching the PDFs for this case."""
         query = f"{case.get('problem_type', '')}. {case.get('summary', '')}"
         law_docs = self.retriever.retrieve(query, k=6)
         return case_tools.draft(self.llm, case, doc_type, law_docs, language)

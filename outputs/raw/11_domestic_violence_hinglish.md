@@ -5,46 +5,54 @@ _Mode: normal_
 ## User
 Mera pati roz maarta hai aur ghar se nikalne ki dhamki deta hai. Main kahan jaun?
 
-**Reply language:** Hinglish · **Source:** vectorstore · **Confidence:** HIGH · **Time:** 11.5s
+**Reply language:** Hinglish · **Source:** vectorstore · **Confidence:** HIGH · **Time:** 4.4s
 **Lawyer warning (violence_or_safety):** If you are in danger right now, call 112. Women's helpline: 181. A lawyer or Protection Officer can get you a protection order; NALSA 15100 gives a free lawyer.
 
 ## Nyaya.ai
-**Agar aap abhi danger mein hain, turant 112 dial karein. Women’s helpline: 181. Ek Protection Officer ya police aapko protection order dilwa sakti hai; free lawyer ke liye NALSA 15100 call karein.**  
+**Agar aap abhi danger mein hain, turant 112 ya Women’s helpline 181 pe call karein.**  
+Ek lawyer ya Protection Officer aapko protection order dilane mein madad kar sakta hai; free lawyer ke liye NALSA 15100 pe contact karein.
 
-- Police ya nearest Protection Officer ko turant report karein – wo aapko protection order aur shelter home ki suvidha de sakte hain.  
-- Agar aapko ghar se nikalne ka darr hai, magistrate se residence order ke liye apply kar sakti hain, jisse respondent ko ghar se bahar nikalne ya aapko ghar se hatane se roka jayega.  
-- Apni medical report (agar koi chot ya injury ho) police ko dikhayein; ye aapke case ko strong banayega.  
-- Apne case ka likhit record rakhein – police FIR, medical reports, aur koi bhi text/email jo abuse dikhata ho.  
-- NALSA (15100) se free legal aid lein; wo aapko lawyer aur court process mein madad karenge.  
+- Police station ya nearest Protection Officer ko turant report karein; wo aapko aapke rights aur protection order ke liye apply karne ki jaankari denge.  
+- Apni abuse ki details (date, time, kya hua, photos, messages, medical reports) likh kar rakhein – yeh evidence future mein kaam aayega.  
+- Protection Officer ya court se protection order (jo aapko physical harm se bachata hai) aur residence order (jo respondent ko ghar se nikalne ya aapko ghar se hatane se rokta hai) ke liye apply kar sakte hain.  
+- Agar aapko shelter home ki zarurat ho, to Protection Officer aapko nearby shelter home ka address dega aur police ko uski report forward karega.  
+- Free legal aid ke liye NALSA helpline 15100 pe call karein; wo aapko lawyer assign kar denge jo aapke case ko handle karega.
 
 **Based on: Protection of Women from Domestic Violence Act, 2005**
+
+⚠️ Not found in the sources: NALSA assigns a lawyer to handle the case.. Please double-check these points before acting on them.
 
 **Citation check:**
 - Domestic Violence Act, 2005: verified
 
+**Grounded:** 8/9 claims found in the sources (89%)
+- SUPPORTED: Emergency number is 112.
+- SUPPORTED: Women's helpline number is 181.
+- SUPPORTED: NALSA helpline number for free lawyer is 15100.
+- SUPPORTED: Police officers or Protection Officers inform the aggrieved person of their right to apply for a protection order.
+- SUPPORTED: A protection order protects the aggrieved person from physical harm.
+- SUPPORTED: A residence order can restrain the respondent from disturbing the possession of the shared household or direct the respondent to remove himself from the shared household.
+- SUPPORTED: The Protection Officer can make available a safe shelter home if required.
+- SUPPORTED: The Protection Officer forwards a copy of the report of lodging the aggrieved person in a shelter home to the police station.
+- NOT_SUPPORTED: NALSA assigns a lawyer to handle the case.
+
 ## Case file
-**Problem:** Domestic violence and threat of eviction
+**Problem:** Domestic violence
 
-The complainant states that her husband physically assaults her on a daily basis. He also threatens to throw her out of the house.
+Husband physically assaults the wife daily and threatens to leave the house. Wife seeks guidance on where to go.
 
-**Other party:** her husband
+**Other party:** husband
 **Amount:** not mentioned
-**You want:** Protection from further abuse, a restraining order against the husband, and safe shelter.
+**You want:** Seek safety and legal protection against domestic violence
 
 **Timeline**
-- not mentioned: Husband beats her daily and threatens to evict her from the house
-
-**Proof to collect now**
-- Medical reports or doctor certificates documenting injuries
-- Police FIR copy if any complaint was filed
-- Photographs of injuries or damage to property
-- Witness statements from family members, neighbors, or friends
+- not mentioned: husband beats wife daily and threatens to leave
 
 **I still need to know**
-- Husband ka naam aur age kya hai?
-- Kya aapne pehle police ya koi authority ko complaint ki hai? Agar haan, to FIR number ya date bata sakti hain?
-- Kya aapke paas koi medical report ya injury ka photo hai?
-- Kya aapke ghar me koi bachche ya dependent family members hain?
+- Kya aapne police ko report kiya hai?
+- Kya aapke paas koi medical report ya injury ka evidence hai?
+- Kya aapke paas koi gawah hai jo aapke saath incident dekh sakta ho?
+- Kya aapko koi temporary shelter ya safe house ki zaroorat hai?
 
 ## Automatic checks
 - language: PASS

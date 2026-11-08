@@ -12,12 +12,13 @@ class Config:
 
     TAVILY_API_KEY=os.getenv("TAVILY_API_KEY") or st.secrets["TAVILY_API_KEY"]
 
-    # Groq retired the Llama 3.x models on 16 Aug 2026. These are Groq's
-    # recommended replacements. Override them in .env (LLM_MODEL=...,
-    # EVALUATOR_MODEL=...) without touching code when Groq changes models again.
     LLM_MODEL=os.getenv("LLM_MODEL", "openai/gpt-oss-120b")
 
     EVALUATOR_MODEL=os.getenv("EVALUATOR_MODEL", "openai/gpt-oss-20b")
+
+    FALLBACK_MODEL=os.getenv("FALLBACK_MODEL", "qwen/qwen3.8-27b")
+
+    FACT_CHECK_MODEL=os.getenv("FACT_CHECK_MODEL", "qwen/qwen3.8-27b")
 
     EMBEDDING_MODEL="all-MiniLM-L6-v2"
 
@@ -35,25 +36,40 @@ class Config:
             raise ValueError("TAVILY_API_KEY missing")
 
     @classmethod
+    def _chat(cls, model, retries=2):
+        extra = {}
+        if model.startswith("qwen/"):
+            extra["reasoning_format"] = "hidden"
+        return ChatGroq(
+            model=model,
+            api_key=cls.GROQ_API_KEY,
+            temperature=0,
+            max_retries=retries,
+            **extra
+        )
+
+    @classmethod
     def get_llm(cls):
 
         cls.validate()
 
         os.environ["TAVILY_API_KEY"]=cls.TAVILY_API_KEY
 
-        return ChatGroq(
-            model=cls.LLM_MODEL,
-            api_key=cls.GROQ_API_KEY,
-            temperature=0
-        )
+        fallback = cls.FALLBACK_MODEL
+        if not fallback or fallback.lower() == "none" or fallback == cls.LLM_MODEL:
+            return cls._chat(cls.LLM_MODEL)
+        return cls._chat(cls.LLM_MODEL, retries=1).with_fallbacks([cls._chat(fallback)])
 
     @classmethod
     def get_evaluator_llm(cls):
 
         cls.validate()
 
-        return ChatGroq(
-            model=cls.EVALUATOR_MODEL,
-            api_key=cls.GROQ_API_KEY,
-            temperature=0
-        )
+        return cls._chat(cls.EVALUATOR_MODEL, retries=5)
+
+    @classmethod
+    def get_fact_check_llm(cls):
+
+        cls.validate()
+
+        return cls._chat(cls.FACT_CHECK_MODEL, retries=5)

@@ -5,125 +5,133 @@ _Mode: normal_
 ## User
 I ordered a mixer grinder from an online seller for Rs 4,500 on 3 August. It arrived broken. I returned it on 6 August and they still haven't refunded me after 2 months, even though I sent 5 emails. I have the order invoice and the courier return receipt. What can I do?
 
-**Reply language:** English · **Source:** vectorstore · **Confidence:** HIGH · **Time:** 5.0s
+**Reply language:** English · **Source:** vectorstore · **Confidence:** MEDIUM · **Time:** 4.7s
 
 ## Nyaya.ai
-- Keep your invoice, the courier return receipt, and copies of all five reminder emails as proof.  
-- File an online consumer complaint on **e‑Jagriti** (e‑jagriti.gov.in) and attach the proof.  
-- The District Consumer Commission (it handles cases up to Rs 50 lakh) will first try to settle the dispute through mediation.  
-- If the seller still does not refund, the Commission can order the seller to return your Rs 4,500.  
-- You can follow the case on the portal and, if needed, ask the Commission to enforce the refund order.  
+- Keep your invoice, the courier return receipt, and copies of all five emails you sent to the seller.  
+- File an online consumer complaint on the e‑Jagriti portal (e‑jagriti.gov.in). Choose the District Consumer Commission because the purchase amount is only Rs 4,500.  
+- The Commission will first try to settle the dispute through mediation. If the seller still does not pay, the Commission can order the seller to refund you the full amount.  
+- If the seller refuses to follow the Commission’s order, the Commission can impose a fine or even jail time for non‑compliance.  
+- You do not need a lawyer, but you can call the free legal‑aid helpline (NALSA 15100) for help preparing your complaint.
 
 **Based on: Consumer Protection Act, 2019**
+
+⚠️ Not found in the sources: If the seller does not pay, the Commission can order the seller to refund the full amount.; If the seller refuses to follow the Commission’s order, the Commission can impose a fine or even jail time for non-compliance.. Please double-check these points before acting on them.
 
 **Citation check:**
 - Consumer Protection Act, 2019: verified
 
+**Grounded:** 4/6 claims found in the sources (67%)
+- SUPPORTED: Consumer complaints are filed online on the e-Jagriti portal (e-jagriti.gov.in).
+- SUPPORTED: The District Consumer Commission has jurisdiction for purchases up to Rs 50 lakh.
+- SUPPORTED: The Commission will first try to settle the dispute through mediation.
+- NOT_SUPPORTED: If the seller does not pay, the Commission can order the seller to refund the full amount.
+- NOT_SUPPORTED: If the seller refuses to follow the Commission’s order, the Commission can impose a fine or even jail time for non-compliance.
+- SUPPORTED: The free legal-aid helpline is NALSA 15100.
+
 ## Case file
 **Problem:** Refund not given for defective product
 
-The user ordered a mixer grinder for Rs 4,500 on 3 August, received it broken and returned it on 6 August. After sending five emails, the seller has not refunded the amount even after two months.
+The person ordered a mixer grinder for Rs 4,500 on 3 August, received a broken item, returned it on 6 August, and has not received a refund after two months despite sending five emails. The person has the order invoice and the courier return receipt.
 
 **Other party:** online seller (name not mentioned)
-**Amount:** Rs 4,500
-**You want:** A full refund of Rs 4,500 from the seller
+**Amount:** Rs 4,500
+**You want:** Refund of Rs 4,500 for the defective product
 
 **Timeline**
-- 3 August: Ordered a mixer grinder for Rs 4,500
-- 6 August: Returned the broken product
-- not mentioned: Sent five follow‑up emails requesting refund
-- not mentioned: No refund received after two months
+- 3 August: Ordered mixer grinder for Rs 4,500
+- 6 August: Returned the broken mixer grinder
+- not mentioned: Sent 5 emails requesting refund
+- not mentioned: No refund received after 2 months
 
 **Proof you have**
 - order invoice
 - courier return receipt
 
 **Proof to collect now**
-- copies of all email correspondence with the seller
-- order confirmation email or screenshot showing order details and order number
-- bank statement or transaction receipt showing payment of Rs 4,500
-- any response (or lack thereof) from the seller’s customer support
+- copies of the 5 emails sent to the seller
+- bank statement showing no refund
+- any response or communication from the seller
 
 **I still need to know**
 - What is the name or website of the online seller?
-- Do you have an order or transaction number for this purchase?
-- When was the last email you sent to the seller?
-- Have you received any reply from the seller, even an automated one?
+- Do you have the order number or any reference number?
+- Can you provide the email addresses or contact details you used to communicate with the seller?
+- Have you tried contacting any consumer forum or regulatory body about this issue?
 
 ## Draft: Legal notice
-_Law pages used: Consumer Protection Act, 2019, p.20, Consumer Protection Act, 2019, p.32, Information Technology Act, 2000, p.19, Consumer Protection Act, 2019, p.31, Bharatiya Nagarik Suraksha Sanhita, 2023, p.229, Information Technology Act, 2000, p.22_
+_Law pages used: Consumer Protection Act, 2019, p.20, Consumer Protection Act, 2019, p.32, Consumer Protection Act, 2019, p.31, Information Technology Act, 2000, p.19, Consumer Protection Act, 2019, p.30, Bharatiya Nagarik Suraksha Sanhita, 2023, p.229_
 
 **How to use this draft**  
-1. Replace every bracketed item (e.g., [YOUR FULL NAME]) with the correct details.  
-2. Attach copies of the order invoice, courier return receipt, email thread, and payment proof.  
+1. Replace every [PLACEHOLDER] with the correct information (your name, address, seller’s name/website, order number, etc.).  
+2. Attach copies of the order invoice, courier return receipt and the five e‑mail correspondences, and a bank statement showing no refund.  
 3. Keep a signed copy for your records.  
-4. Have a qualified lawyer review the notice before you send it or file any suit.  
+4. Have a qualified lawyer review the notice before you send it or before filing any suit.  
 
 ---  
 
 **LEGAL NOTICE**  
 
-**Date:** [DATE OF NOTICE]  
+**Date:** [DD Month 2026]  
 
-**To,**  
-[SELLER NAME / WEBSITE]  
+**To**  
+[SELLER’S FULL NAME / ONLINE STORE NAME]  
 [SELLER’S ADDRESS]  
+[SELLER’S EMAIL / CONTACT DETAILS]  
 
-**From,**  
+**From**  
 [YOUR FULL NAME]  
 [YOUR ADDRESS]  
-[YOUR CONTACT NUMBER / EMAIL]  
+[YOUR EMAIL / CONTACT DETAILS]  
+
+**Subject:** Demand for Refund of Rs 4,500 for Defective Mixer Grinder (Order No. [ORDER NUMBER])  
 
 ---
 
-### 1.  Subject: Demand for Refund of Rs 4,500 for Defective Mixer Grinder  
+**1.  Facts**  
 
----
+1.1. On **3 August 2026** I placed an order for a mixer grinder (price Rs 4,500) through your online store (website: [SELLER’S WEBSITE]) – Order No. [ORDER NUMBER].  
 
-### 2.  Facts  
+1.2. The product was delivered in a broken condition. I returned the defective mixer grinder on **6 August 2026** via courier and have the courier return receipt attached hereto as Annexure A.  
 
-1. On **3 August [Year]**, I placed an order for a mixer grinder (Order ID: **[ORDER ID]**) through your online platform at a price of **Rs 4,500**.  
-2. The product was delivered in a broken condition, and I returned the same to you on **6 August [Year]**, as evidenced by the attached courier return receipt.  
-3. Following the return, I sent **five separate e‑mail reminders** (copies attached) requesting the refund of the purchase price.  
-4. Despite the lapse of **two months** since the return, no refund has been credited to my bank account, nor have I received any substantive response from your customer‑service team.  
+1.3. Despite returning the product, you have not refunded the purchase price. I have sent you **five (5) e‑mail reminders** (dated [list dates if known]; copies attached as Annexure B) requesting the refund.  
 
----
+1.4. It has now been **more than two (2) months** since the return, and no amount of Rs 4,500 has been credited to my bank account (see bank statement annexed as Annexure C).  
 
-### 3.  Legal Grounds  
+**2.  Legal Position**  
 
-1. Under **Section 85** of the *Consumer Protection Act, 2019*, a product service provider is liable where the service (sale of goods) is “faulty or imperfect or deficient… required to be provided… under any contract”. The mixer grinder supplied by you was defective, and you have failed to remedy the defect by refunding the purchase price.  
+2.1. Under the **Consumer Protection Act, 2019**, a product seller is liable for a defective product (Sec. 86).  
 
-2. Further, **Section 86** of the same Act makes a **product seller** liable when he has exercised substantial control over the product’s design, testing, packaging or labeling, or when the seller fails to honour the contract. Your refusal to refund constitutes a breach of the contract and a violation of the consumer’s statutory rights.  
+2.2. The product supplied by you was faulty, did not conform to the express warranty, and was returned by the consumer in accordance with the seller’s return policy (Sec. 85(a) & (d)).  
 
-3. Accordingly, you are required to refund the full amount of **Rs 4,500** (plus any applicable interest) within **fifteen (15) days** from the receipt of this notice, failing which I shall be compelled to institute appropriate proceedings before the **District Consumer Disputes Redressal Commission** (or any other competent forum) for recovery of the amount, compensation for mental agony, and costs of the action, as empowered by the *Consumer Protection Act, 2019*.  
+2.3. Accordingly, you are obligated to refund the full consideration paid by the consumer. The Act further provides that the minimum amount payable shall not be less than twenty‑five per cent (25 %) of the value of the defective goods (Consumer Protection Act, 2019, p. 20).  
 
----
+2.4. Failure to comply with the consumer’s lawful demand constitutes a violation of the Act and entitles the consumer to approach the appropriate consumer forum for relief (Sec. 30 & 31, Consumer Protection Act, 2019).  
 
-### 4.  Relief Sought  
+**3.  Demand**  
 
-1. Immediate refund of **Rs 4,500** to my bank account (details provided below).  
-2. Interest on the delayed amount at the prevailing bank rate from **6 August [Year]** until actual payment.  
-3. Recovery of costs incurred in sending this notice and any further legal expenses, if the matter proceeds to litigation.  
+In view of the foregoing, I hereby **demand** that you:
 
----
+a) Refund the full purchase price of **Rs 4,500** to my bank account no. [YOUR BANK ACCOUNT DETAILS] **within fifteen (15) days** from the receipt of this notice; and  
 
-### 5.  Mode of Payment  
+b) Confirm in writing that the refund has been processed, together with the transaction reference number.  
 
-Please transfer the amount to the following bank account:  
+**4.  Consequence of Non‑Compliance**  
 
-- **Account Name:** [YOUR BANK ACCOUNT NAME]  
-- **Account Number:** [YOUR ACCOUNT NUMBER]  
-- **IFSC Code:** [IFSC CODE]  
+If the above demand is not satisfied within the stipulated period, I shall be constrained to file a complaint before the **District Consumer Disputes Redressal Commission** (or the appropriate forum) seeking:
 
-Kindly acknowledge receipt of this notice and confirm the date of refund within the stipulated period.  
+* the refund of Rs 4,500;  
+* interest as may be awarded under the Act;  
+* compensation for mental harassment and inconvenience; and  
+* costs of the proceedings.  
 
----
+Such action will be taken without any further notice and at your cost.  
 
-### 6.  Consequence of Non‑Compliance  
+**5.  Documents Attached**  
 
-If the refund is not effected within **15 days** of the date of this notice, I will, without any further notice, file a complaint before the **District Consumer Disputes Redressal Commission** seeking the reliefs mentioned above, together with any additional reliefs the Commission may deem appropriate under the *Consumer Protection Act, 2019*.  
-
----
+1. Annexure A – Courier return receipt (6 August 2026)  
+2. Annexure B – Copies of the five reminder e‑mails sent by me  
+3. Annexure C – Bank statement showing no credit of Rs 4,500  
 
 **Yours faithfully,**  
 
@@ -131,13 +139,11 @@ _____________________________
 [YOUR FULL NAME]  
 [Signature]  
 
-**Enclosures:**  
-1. Copy of Order Invoice  
-2. Courier Return Receipt  
-3. Email correspondence (all five reminders)  
-4. Bank statement/transaction receipt showing payment of Rs 4,500  
+*Copy to:*  
+- [Your Lawyer’s Name & Address] (if any)  
+- [Consumer Forum – for information]  
 
----  
+[CHECK BEFORE SENDING: these references could not be verified in the law text: Section 30 of the Consumer Protection Act, 2019; Section 31 of the Consumer Protection Act, 2019]
 
 (Drafted with AI help by Nyaya.ai. Not legal advice. Please have a lawyer review it before filing.)
 

@@ -5,7 +5,7 @@ from pathlib import Path
 from src.state.ragstate import RAGstate
 from src.config.config import Config
 from src.language import languages
-from src.guards import guards
+from src.guards import guards, faithfulness
 
 from langchain_core.documents import Document
 from langchain_community.tools.tavily_search import TavilySearchResults
@@ -13,8 +13,6 @@ from langchain_community.tools.tavily_search import TavilySearchResults
 
 class Nodes:
 
-    # Maps keywords found in the PDF filenames to clean, citable names.
-    # Adjust the keys to match your actual filenames in data/.
     SOURCE_NAMES = {
         "bnss": "Bharatiya Nagarik Suraksha Sanhita, 2023",
         "nagarik": "Bharatiya Nagarik Suraksha Sanhita, 2023",
@@ -22,17 +20,15 @@ class Nodes:
         "information_technology": "Information Technology Act, 2000",
         "consumer": "Consumer Protection Act, 2019",
         "cp act": "Consumer Protection Act, 2019",
-        # Added to cover the Kuku brief's everyday problems:
         "wages": "Code on Wages, 2019",
         "tenancy": "Model Tenancy Act, 2021",
         "domestic": "Protection of Women from Domestic Violence Act, 2005",
     }
 
-    # Checked, current facts the model may use instead of guessing portals or
-    # phone numbers (testing showed it still suggesting the retired e-Daakhil).
     OFFICIAL_FACTS = """- Consumer complaints are filed online on e-Jagriti (e-jagriti.gov.in), which replaced e-Daakhil. National Consumer Helpline: 1915.
 - Which consumer commission (by value of goods/services paid): District Commission up to Rs 50 lakh; State Commission Rs 50 lakh to Rs 2 crore; National Commission above Rs 2 crore.
 - Cyber fraud: call 1930 immediately and report at cybercrime.gov.in.
+- There is no "digital arrest" in Indian law. Police, CBI and other agencies never arrest anyone over a video or phone call or ask for money to avoid arrest; such calls are scams. Do not pay; report at 1930 or cybercrime.gov.in.
 - Free lawyer / legal aid: NALSA helpline 15100.
 - Emergency: 112. Women's helpline: 181.
 - The Model Tenancy Act, 2021 is a model law: it applies only in states that have passed a law based on it. Elsewhere, deposit and rent disputes depend on the state's own rent law and the rent agreement; say this whenever you rely on it.
@@ -53,20 +49,15 @@ class Nodes:
         self.llm = llm
 
         self.evaluator_llm = Config.get_evaluator_llm()
+        self.fact_check_llm = Config.get_fact_check_llm()
 
-        # Web fallback only from government and well-known legal sites. In
-        # testing, unrestricted search returned random law blogs.
         self.tavily = TavilySearchResults(
             max_results=5,
             include_domains=self.WEB_DOMAINS
         )
 
-    # ----------------------------------------------------------------- #
-    # Helpers
-    # ----------------------------------------------------------------- #
 
     def _friendly_source(self, raw: str) -> str:
-        """Turn a raw file path into a clean, citable law name."""
 
         stem = Path(str(raw)).stem
         low = stem.lower()
@@ -78,13 +69,6 @@ class Nodes:
         return stem.replace("_", " ").replace("-", " ").title()
 
     def _format_external(self, raw_results):
-        """
-        Turn Tavily output into (context_text, sources_list).
-
-        Tavily returns a list of dicts with 'url'/'content' (and sometimes
-        'title'). On failure external_search returns an error string, which
-        we pass through unchanged with no sources.
-        """
 
         if isinstance(raw_results, str):
             return raw_results, []
@@ -116,8 +100,6 @@ class Nodes:
 
     @staticmethod
     def _lawyer_block(flags):
-        """Prompt text that makes the answer itself repeat the lawyer warning,
-        in the user's language (the app also shows it as a red banner)."""
         if not flags:
             return ""
         msgs = "\n".join(f"- {f['message']}" for f in flags)
@@ -127,48 +109,84 @@ IMPORTANT: Near the top of the answer, clearly tell the person this
 {msgs}
 """
 
-    def _check_answer(self, answer, docs, web_text, base_confidence):
-        """Checks every citation in the answer against the text it came from.
-        Unverified ones are listed under the answer and the confidence drops
-        one level (HIGH -> MEDIUM -> LOW)."""
+    REVISE_PROMPT = """You wrote the ANSWER below for a person in India with a legal problem.
+An automatic check against the sources found these problems:
+{problems}
+
+Rewrite the answer so that every problem is fixed:
+- If the SOURCES give the correct information, correct the point using only what the SOURCES say.
+- If the SOURCES do not cover it, remove the point, or say plainly that you are not sure and they should check with a lawyer (free legal aid: NALSA 15100).
+- Mention a section number only if it appears in the SOURCES, and only where it directly applies to this person's situation.
+- Keep everything else the same: the language, the format, the practical steps, any lawyer warning, and the "Based on" line.
+- Language: {language}
+
+Return only the rewritten answer.
+
+SOURCES
+{sources}
+
+ANSWER
+{answer}"""
+
+    def _review(self, answer, law_pages, web_text, sources):
+        citations = guards.verify_citations(answer, law_pages, web_text)
+        faith = faithfulness.check(self.fact_check_llm, answer, sources)
+        problems = [f"{guards.describe(c)}: not found in the sources" for c in citations
+                    if c["status"] not in ("verified", "repealed")]
+        problems += [f"{claim}: not supported by the sources" for claim in (faith or {}).get("unsupported", [])]
+        return citations, faith, problems
+
+    def _check_answer(self, answer, docs, web_text, base_confidence, language="English"):
         law_pages = [
             (self._friendly_source(d.metadata.get("source", "")), d.page_content)
             for d in docs
         ]
-        citations = guards.verify_citations(answer, law_pages, web_text)
-        note = guards.warning_note(citations)
-        caveat = guards.tenancy_caveat(answer)
-        confidence = base_confidence
-        answer += note + caveat
-        # An old law mentioned as history is not an error, so it alone doesn't lower confidence.
-        if caveat or any(c["status"] not in ("verified", "repealed") for c in citations):
-            confidence = {"HIGH": "MEDIUM", "MEDIUM": "LOW"}.get(base_confidence, "LOW")
-        bad = sum(c["status"] not in ("verified", "repealed") for c in citations)
-        print(f"Citations checked: {len(citations)}, not verified: {bad}, confidence: {confidence}")
-        return answer, citations, confidence
+        sources = "CHECKED FACTS\n" + self.OFFICIAL_FACTS + "\n\nLAW TEXT\n"
+        sources += "\n\n".join(t for _, t in law_pages)
+        if web_text:
+            sources += "\n\nWEB RESULTS\n" + web_text
 
-    # ----------------------------------------------------------------- #
-    # LLM steps
-    # ----------------------------------------------------------------- #
+        citations, faith, problems = self._review(answer, law_pages, web_text, sources)
+
+        if problems:
+            try:
+                revised = self.llm.invoke(self.REVISE_PROMPT.format(
+                    problems="\n".join(f"- {p}" for p in problems),
+                    language=languages.instruction(language),
+                    sources=sources[:faithfulness.MAX_SOURCE_CHARS],
+                    answer=answer,
+                )).content.strip()
+            except Exception as e:
+                print(f"Revision skipped: {e}")
+                revised = ""
+            if revised:
+                new_citations, new_faith, new_problems = self._review(revised, law_pages, web_text, sources)
+                print(f"Revised answer: problems {len(problems)} -> {len(new_problems)}")
+                if len(new_problems) < len(problems):
+                    answer, citations, faith, problems = revised, new_citations, new_faith, new_problems
+
+        caveat = guards.tenancy_caveat(answer)
+        answer += guards.warning_note(citations) + faithfulness.note(faith) + caveat
+
+        bad = sum(c["status"] not in ("verified", "repealed") for c in citations)
+        score = faith["score"] if faith else None
+
+        confidence = base_confidence
+        if score is not None and score < 0.5:
+            confidence = "LOW"
+        elif caveat or bad or (score is not None and score < 0.8):
+            confidence = {"HIGH": "MEDIUM", "MEDIUM": "LOW"}.get(base_confidence, "LOW")
+
+        print(f"Citations checked: {len(citations)}, not verified: {bad}")
+        print(f"Grounded: {faithfulness.summary(faith)}, confidence: {confidence}")
+        return answer, citations, confidence, faith
+
 
     def rewrite_question(
         self,
         question: str,
         chat_history: list
     ) -> tuple[str, str, str]:
-        """Rewrites the latest message as a standalone ENGLISH question and
-        detects the language it was written in.
-
-        It now runs even without chat history, because the law PDFs and the
-        embedding model are English-only: a Hinglish, Hindi or Tamil question
-        has to be translated before the FAISS search can find anything.
-
-        It also asks for a search query in legal wording: plain-English
-        questions ("police took my brother") matched the formal text of the
-        Acts poorly in testing, so the right sections were often not found.
-
-        Returns (english_question, detected_language, search_query).
-        """
 
         recent_history = chat_history[-6:] if chat_history else []
 
@@ -236,9 +254,6 @@ Return ONLY a JSON object:
 
     def evaluate_context(self, question: str, context: str) -> str:
 
-        # The old wording ("answered accurately and COMPLETELY using ONLY the
-        # context") made the gpt-oss evaluator reject the law text every time,
-        # so even questions the PDFs clearly cover went to web search.
         prompt = f"""
 You are a retrieval evaluator for an Indian legal-help assistant.
 
@@ -265,8 +280,6 @@ or
 INSUFFICIENT
 """
 
-        # gpt-oss sometimes spends its output on reasoning and returns an empty
-        # string; one retry fixed this in testing.
         result = ""
         for _ in range(2):
             result = (self.evaluator_llm.invoke(prompt).content or "").strip().upper()
@@ -287,8 +300,6 @@ INSUFFICIENT
 
         try:
 
-            # Without "India" a bare question like "my refund hasn't come"
-            # returned US tax (IRS) pages in testing.
             result = self.tavily.invoke(f"{question} (India, Indian law)")
 
             print("Tavily Search Triggered")
@@ -427,7 +438,8 @@ This applies to every sentence of the answer.
 
 Use ONLY the legal context below for legal statements. Mention a section
 number only if it appears in the context, and say only what that section's
-text in the context actually says it does. You may add practical next steps
+text in the context actually says it does. Cite a section only when it directly
+applies to this person's situation; never cite one just to say it does not apply. You may add practical next steps
 (what proof to keep, who to contact), but do not invent laws, limits or cases.
 
 OFFICIAL FACTS (current and correct). Mention one ONLY if it fits this
@@ -452,9 +464,6 @@ ANSWER:
 
         return response.content
 
-    # ----------------------------------------------------------------- #
-    # Main node
-    # ----------------------------------------------------------------- #
 
     def generate_ans(self, state: RAGstate) -> RAGstate:
 
@@ -467,22 +476,19 @@ ANSWER:
                 state.chat_history
             )
 
-            # The user's dropdown choice wins; on "Auto" we reply in the
-            # language they wrote in.
             reply_language = languages.resolve(state.language, detected_language)
 
-            # Fixed rules (not the model) decide when to send them to a lawyer.
             user_turns = [m["content"] for m in state.chat_history if m.get("role") == "user"]
             escalations = guards.escalation_flags(state.question, rewritten_question, *user_turns)
             lawyer_block = self._lawyer_block(escalations)
             print("Lawyer check:", [f["rule"] for f in escalations] or "none")
 
-            # 6 chunks instead of the default 4: with 4, refund questions often
-            # got only mediation/product-liability pages, not the complaint sections.
-            # Search with the question plus its legal wording. The answer is
-            # still written only from what this search finds.
+            wording = guards.statute_terms(f"{state.question} {rewritten_question}")
+            if wording:
+                print(f"Statute wording added: {wording}")
+
             docs: list[Document] = self.retriever.retrieve(
-                f"{rewritten_question} {search_query}".strip(),
+                f"{rewritten_question} {search_query} {wording}".strip(),
                 k=6
             )
 
@@ -511,8 +517,8 @@ ANSWER:
                     lawyer_block
                 )
 
-                answer, citations, confidence = self._check_answer(
-                    answer, [], external_context, "MEDIUM"
+                answer, citations, confidence, faith = self._check_answer(
+                    answer, [], external_context, "MEDIUM", reply_language
                 )
 
                 return RAGstate(
@@ -528,7 +534,8 @@ ANSWER:
                     confidence=confidence,
                     external_context=external_context,
                     escalations=escalations,
-                    citations=citations
+                    citations=citations,
+                    faithfulness=faith
                 )
 
             context = []
@@ -571,8 +578,8 @@ ANSWER:
                     lawyer_block
                 )
 
-                answer, citations, confidence = self._check_answer(
-                    answer, docs, external_context, "MEDIUM"
+                answer, citations, confidence, faith = self._check_answer(
+                    answer, docs, external_context, "MEDIUM", reply_language
                 )
 
                 return RAGstate(
@@ -588,7 +595,8 @@ ANSWER:
                     confidence=confidence,
                     external_context=external_context,
                     escalations=escalations,
-                    citations=citations
+                    citations=citations,
+                    faithfulness=faith
                 )
 
             answer = self.generate_rag_answer(
@@ -599,8 +607,8 @@ ANSWER:
                 lawyer_block
             )
 
-            answer, citations, confidence = self._check_answer(
-                answer, docs, "", "HIGH"
+            answer, citations, confidence, faith = self._check_answer(
+                answer, docs, "", "HIGH", reply_language
             )
 
             return RAGstate(
@@ -616,18 +624,24 @@ ANSWER:
                 confidence=confidence,
                 external_context="",
                 escalations=escalations,
-                citations=citations
+                citations=citations,
+                faithfulness=faith
             )
 
         except Exception as e:
 
             answer = f"Error: {str(e)}"
             if "rate_limit" in str(e) or "429" in str(e):
-                # Groq free tier: shown to people instead of the raw API error.
-                answer = (
-                    "Nyaya.ai has hit its free daily usage limit on the AI model. "
-                    "Please try again in a little while. (RATE_LIMIT)"
-                )
+                if "per day" in str(e) or "TPD" in str(e):
+                    answer = (
+                        "Nyaya.ai has hit its free daily usage limit on the AI model. "
+                        "Please try again in a little while. (RATE_LIMIT_DAY)"
+                    )
+                else:
+                    answer = (
+                        "Nyaya.ai is getting too many requests right now. "
+                        "Please try again in a minute. (RATE_LIMIT_MINUTE)"
+                    )
             return RAGstate(
                 question=state.question,
                 chat_history=state.chat_history,

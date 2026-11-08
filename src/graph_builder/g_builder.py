@@ -1,5 +1,3 @@
-"""Graph builder for LangGraph workflow"""
-
 from langgraph.graph import StateGraph, END
 
 from src.state.ragstate import RAGstate

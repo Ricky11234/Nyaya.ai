@@ -16,13 +16,14 @@
       "not_assert": [
         "66Z"
       ]
-    }
+    },
+    "trap": true
   },
   "turns": [
     {
       "input": "What is the punishment under Section 66Z of the IT Act for sending rude WhatsApp messages?",
       "result": {
-        "answer": "Source: External Search  \n\nThe uploaded legal texts do not contain Section 66Z, and the web results you provided do not mention it either. Therefore, the exact punishment for sending rude WhatsApp messages under Section 66Z cannot be given from the available sources.  \n\n**What we can say based on what we found:**  \n- The information you shared only talks about other sections of the IT Act (like 66A, 66, 67, etc.).  \n- No description of Section 66Z or its penalty appears in those sources.  \n- Because the law is not listed, we cannot state a specific fine, jail term, or other punishment for rude WhatsApp messages under that section.  \n\nIf you need the exact wording, you may have to look up the latest version of the Information Technology Act on an official government website or consult a legal professional.  \n\nBased on: web search  \n\nConfidence Level: Medium\n\n⚠️ Not verified: Section 66Z. I could not find this in the sources I used, so please double-check it with a lawyer before relying on it.",
+        "answer": "Source: External Search  \n\nThe legal text for Section 66Z of the Information Technology Act was not found in the material you gave. The external sources only talk about Sections 66A, 66, 67 and 67A, which deal with offensive or obscene electronic messages, not a specific “rude‑message” provision under 66Z.  \n\n**What we can say:**  \n- No punishment for “rude messages on WhatsApp” is listed under Section 66Z in the information we have.  \n- The closest related law is Section 66A (now struck down), which used to punish grossly offensive or menacing messages with up to three years’ jail and a fine.  \n- Sections 67 and 67A punish the transmission of obscene or sexually explicit material, with imprisonment up to three years and a fine.  \n\n**Bottom line:** There is no clear, current penalty for rude WhatsApp messages under Section 66Z in the sources we reviewed.  \n\nBased on: web search  \n\nConfidence Level: Medium\n\n⚠️ Not verified: Section 66Z of the Information Technology Act, 2000; Section 66Z. I could not find this in the sources I used, so please double-check it with a lawyer before relying on it.\n\n⚠️ Not found in the sources: Section 66A is now struck down.; Sections 67 and 67A carry a penalty of imprisonment up to three years and a fine.. Please double-check these points before acting on them.",
         "source_type": "external",
         "confidence": "LOW",
         "reply_language": "English",
@@ -31,33 +32,90 @@
           {
             "type": "section",
             "value": "66Z",
+            "act": "Information Technology Act, 2000",
+            "status": "unverified"
+          },
+          {
+            "type": "section",
+            "value": "66A",
+            "act": null,
+            "status": "verified"
+          },
+          {
+            "type": "section",
+            "value": "66",
+            "act": null,
+            "status": "verified"
+          },
+          {
+            "type": "section",
+            "value": "67",
+            "act": null,
+            "status": "verified"
+          },
+          {
+            "type": "section",
+            "value": "67A",
+            "act": null,
+            "status": "verified"
+          },
+          {
+            "type": "section",
+            "value": "66Z",
             "act": null,
             "status": "unverified"
           }
-        ]
+        ],
+        "faithfulness": {
+          "score": 0.5,
+          "supported": 2,
+          "total": 4,
+          "unsupported": [
+            "Section 66A is now struck down.",
+            "Sections 67 and 67A carry a penalty of imprisonment up to three years and a fine."
+          ],
+          "claims": [
+            {
+              "claim": "Section 66A used to punish grossly offensive or menacing messages with up to three years’ jail and a fine.",
+              "verdict": "SUPPORTED"
+            },
+            {
+              "claim": "Section 66A is now struck down.",
+              "verdict": "NOT_SUPPORTED"
+            },
+            {
+              "claim": "Sections 67 and 67A punish the transmission of obscene or sexually explicit material.",
+              "verdict": "SUPPORTED"
+            },
+            {
+              "claim": "Sections 67 and 67A carry a penalty of imprisonment up to three years and a fine.",
+              "verdict": "NOT_SUPPORTED"
+            }
+          ]
+        }
       },
-      "seconds": 21.2
+      "seconds": 9.9
     }
   ],
   "case_file": {
-    "problem_type": "Inquiry about punishment under IT Act",
-    "summary": "The person wants to know the punishment prescribed under Section 66Z of the Information Technology Act for sending rude WhatsApp messages. No other facts or details were provided.",
+    "problem_type": "Punishment under Section 66Z for sending rude WhatsApp messages",
+    "summary": "The person is asking about the punishment under Section 66Z of the IT Act for sending rude WhatsApp messages. No other facts have been provided.",
     "other_party": "not mentioned",
     "timeline": [
       {
         "date": "not mentioned",
-        "event": "Asked about the punishment under Section 66Z for sending rude WhatsApp messages"
+        "event": "not mentioned"
       }
     ],
     "amount_involved": "not mentioned",
     "proof_you_have": [],
     "proof_to_collect": [],
-    "what_you_want": "Information on the penalty and imprisonment term under Section 66Z of the IT Act",
+    "what_you_want": "to know the punishment under Section 66Z for sending rude WhatsApp messages",
     "questions_to_ask_you": [
-      "Have you received any legal notice or complaint regarding the WhatsApp messages?",
-      "Did any court or authority already take action against you under Section 66Z?",
-      "Do you have any screenshots or evidence of the messages in question?",
-      "Are you seeking any specific relief (e.g., to contest a penalty) or just general information?"
+      "Do you have screenshots of the rude WhatsApp messages?",
+      "Who sent the messages to you?",
+      "When did the messages get sent?",
+      "Do you have any witnesses who saw the messages?"
     ]
   },
   "draft": null,
@@ -65,7 +123,6 @@
     "language": true,
     "source": true,
     "lawyer_warning": true,
-    "all_citations_verified": false,
     "did_not_assert_fake": true
   },
   "error": ""

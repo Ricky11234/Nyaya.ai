@@ -8,13 +8,10 @@ class RAGstate(BaseModel):
 
     chat_history: list[dict] = Field(default_factory=list)
 
-    # "professional" for lawyers/law students, "normal" for laypeople.
     mode: str = "normal"
 
-    # What the user picked in the language dropdown ("Auto ..." = match their message).
     language: str = "Auto (reply in my language)"
 
-    # The language the answer was actually written in.
     reply_language: str = ""
 
     retrieved_docs: list[Document] = Field(default_factory=list)
@@ -29,9 +26,8 @@ class RAGstate(BaseModel):
 
     external_context: str = ""
 
-    # "You need a real lawyer" warnings from the fixed rules in src/guards.
     escalations: list[dict] = Field(default_factory=list)
 
-    # Every section / Act / case cited in the answer and whether it was found
-    # in the sources (verified, wrong_act or unverified).
     citations: list[dict] = Field(default_factory=list)
+
+    faithfulness: dict | None = None

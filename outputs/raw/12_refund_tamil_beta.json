@@ -25,61 +25,98 @@
     {
       "input": "நான் ஆன்லைனில் ஒரு ஜோடி காலணி வாங்கினேன். தவறான அளவு வந்தது, அதை திருப்பி அனுப்பினேன். ஒரு மாதமாகியும் பணம் திரும்ப வரவில்லை. நான் என்ன செய்ய வேண்டும்?",
       "result": {
-        "answer": "Error: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in organization `org_01kna4v2pveeqte4fhn8k8mctr` service tier `on_demand` on tokens per day (TPD): Limit 200000, Used 199356, Requested 1231. Please try again in 4m13.584s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}",
-        "source_type": "system",
-        "confidence": "LOW",
-        "reply_language": "English",
+        "answer": "- ஆன்லைனில் வாங்கிய காலணியின் அளவு தவறாக வந்தால், முதலில் விற்பனையாளருக்கு எழுதப்பட்ட புகார் (email/WhatsApp) அனுப்பி, பணம் திருப்பி வழங்குமாறு கோருங்கள்.  \n- விற்பனையாளர் 30 நாட்களுக்குள் பதில் அளிக்கவில்லையெனில், e‑Jagriti (e‑jagriti.gov.in) மூலம் நுகர்வோர் புகார் பதிவு செய்யுங்கள்.  \n- புகார் பதிவு செய்யும் போது, ஆர்டர் எண், செலுத்திய ரொக்கம், திருப்பி அனுப்பிய சான்று (ரசீது, டிராக்கிங் ஸ்கிரீன்‌ஷாட்) ஆகியவற்றை இணைக்கவும்.  \n- மாவட்ட நுகர்வோர் ஆணையம் (District Commission) உங்கள் புகாரை ஏற்றுக்கொண்டால், அது விற்பனையாளருக்கு பதில் அளிக்க 30 நாட்கள் (அதிகபட்சம் 45 நாட்கள்) வழங்கும்; பதில் வராவிட்டால், ஆணையம் தீர்வு வழங்கும்.  \n- தீர்வு கிடைக்காவிட்டால், மாநில அல்லது தேசிய நுகர்வோர் ஆணையத்திற்கு (மதிப்பின் அடிப்படையில்) மேல்முறையிடலாம், அல்லது NALSA (15100) இலிருந்து இலவச சட்ட உதவி பெறலாம்.  \n\nBased on: Consumer Protection Act, 2019",
+        "source_type": "vectorstore",
+        "confidence": "HIGH",
+        "reply_language": "Tamil",
         "escalations": [],
-        "citations": []
+        "citations": [
+          {
+            "type": "act",
+            "value": "Consumer Protection Act, 2019",
+            "act": null,
+            "status": "verified"
+          }
+        ],
+        "faithfulness": {
+          "score": 1.0,
+          "supported": 5,
+          "total": 5,
+          "unsupported": [],
+          "claims": [
+            {
+              "claim": "Consumer complaints can be filed online on e-Jagriti (e-jagriti.gov.in).",
+              "verdict": "SUPPORTED"
+            },
+            {
+              "claim": "The District Commission directs the opposite party to give their version of the case within 30 days.",
+              "verdict": "SUPPORTED"
+            },
+            {
+              "claim": "The District Commission may grant an extended period not exceeding 15 days for the opposite party to respond.",
+              "verdict": "SUPPORTED"
+            },
+            {
+              "claim": "If the opposite party fails to respond within the given time, the Commission proceeds to settle the consumer dispute.",
+              "verdict": "SUPPORTED"
+            },
+            {
+              "claim": "Free legal aid is available from NALSA via helpline 15100.",
+              "verdict": "SUPPORTED"
+            }
+          ]
+        }
       },
-      "seconds": 0.2
+      "seconds": 4.6
     }
   ],
   "case_file": {
     "problem_type": "Refund not received for returned product",
-    "summary": "I purchased a pair of shoes online. The wrong size arrived, I returned it, but after a month the refund has not been received.",
+    "summary": "The person purchased a pair of shoes online and received the wrong size. They returned the shoes but have not received a refund after one month.",
     "other_party": "online retailer",
     "timeline": [
       {
         "date": "not mentioned",
-        "event": "Purchased a pair of shoes online"
+        "event": "purchased a pair of shoes online"
       },
       {
         "date": "not mentioned",
-        "event": "Received wrong size"
+        "event": "received the wrong size"
       },
       {
         "date": "not mentioned",
-        "event": "Returned the shoes"
+        "event": "returned the shoes"
       },
       {
         "date": "not mentioned",
-        "event": "Refund not received after a month"
+        "event": "after one month, no refund received"
       }
     ],
     "amount_involved": "not mentioned",
-    "proof_you_have": [],
+    "proof_you_have": [
+      "not mentioned"
+    ],
     "proof_to_collect": [
-      "Return shipping receipt",
-      "Order confirmation",
-      "Communication with seller about the return",
-      "Proof of payment"
+      "order confirmation",
+      "return receipt",
+      "proof of return shipping",
+      "communication with seller"
     ],
     "what_you_want": "Refund of the purchase amount",
     "questions_to_ask_you": [
-      "What was the order number?",
-      "What is the exact amount paid?",
-      "Do you have any communication with the seller regarding the return?",
-      "Do you have the return shipping receipt?"
+      "விற்பனையாளர் பெயர் என்ன?",
+      "ஆர்டர் எண் என்ன?",
+      "செலுத்திய தொகை எவ்வளவு?",
+      "மீளளிப்பு தொடர்பான எந்தவொரு தொடர்பும் உங்களிடம் உள்ளதா?"
     ]
   },
   "draft": null,
   "checks": {
-    "language": false,
-    "source": false,
+    "language": true,
+    "source": true,
     "lawyer_warning": true,
     "all_citations_verified": true,
-    "mentions": false
+    "mentions": true
   },
   "error": ""
 }

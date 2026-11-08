@@ -4,7 +4,7 @@ import time
 
 from main import AgenticRAG, legal_pdfs
 from src.language import languages
-from src.guards import guards
+from src.guards import guards, faithfulness
 from src.assist.case_tools import DOC_TYPES, case_to_markdown, to_docx_bytes
 from src.ui.theme import apply_theme, hero, loader
 
@@ -20,7 +20,6 @@ if "language" not in st.session_state:
 
     st.session_state.language = languages.AUTO
 
-# Every PDF in data/legal_pdfs (add a law by dropping its PDF there).
 LEGAL_DOCS = legal_pdfs()
 
 COVERED = """- Consumer Protection Act, 2019 (refunds, defective goods)
@@ -30,9 +29,6 @@ COVERED = """- Consumer Protection Act, 2019 (refunds, defective goods)
 - Model Tenancy Act, 2021 (rent, deposit; only in states that adopted it)
 - Protection of Women from Domestic Violence Act, 2005"""
 
-# ---------------------------------------------------------------------- #
-# Mode selection screen (shown until the user picks a mode)
-# ---------------------------------------------------------------------- #
 
 if "mode" not in st.session_state:
 
@@ -104,9 +100,6 @@ For **anyone needing quick legal guidance**.
 
     st.stop()
 
-# ---------------------------------------------------------------------- #
-# Sidebar
-# ---------------------------------------------------------------------- #
 
 with st.sidebar:
 
@@ -223,7 +216,6 @@ st.session_state.setdefault("draft", None)
 
 
 def render_answer(meta, answer):
-    """Banners, answer and citation check for one assistant message."""
 
     for f in meta.get("escalations", []):
         st.error("🧑‍⚖️ " + f["message"])
@@ -244,11 +236,15 @@ def render_answer(meta, answer):
     st.markdown(answer)
 
     citations = meta.get("citations", [])
-    if citations:
-        with st.expander("🔎 Citation check"):
+    faith = meta.get("faithfulness")
+    if citations or faith:
+        with st.expander("🔎 Fact check: " + faithfulness.summary(faith)):
             for c in citations:
-                mark = "✅" if c["status"] == "verified" else "❌"
+                mark = "✅" if c["status"] in ("verified", "repealed") else "❌"
                 st.markdown(f"{mark} {guards.describe(c)}: {c['status'].replace('_', ' ')}")
+            for c in (faith or {}).get("claims", []):
+                mark = "✅" if c["verdict"] == "SUPPORTED" else "⚠️"
+                st.markdown(f"{mark} {c['claim']}")
 
     if meta.get("caption"):
         st.caption(meta["caption"])
@@ -270,9 +266,6 @@ for msg in st.session_state.chat_history:
         else:
             st.markdown(msg["content"])
 
-# ---------------------------------------------------------------------- #
-# Case file and drafting (help the person act, not just understand)
-# ---------------------------------------------------------------------- #
 
 user_msgs = [m["content"] for m in st.session_state.chat_history if m["role"] == "user"]
 
@@ -374,6 +367,7 @@ if question:
         "reply_language": reply_language,
         "escalations": result.get("escalations", []),
         "citations": result.get("citations", []),
+        "faithfulness": result.get("faithfulness"),
         "caption": f"⏱️ Response Time: {elapsed:.2f} seconds"
         + (f" | 🗣️ Answered in: {reply_language}" if reply_language else ""),
     }

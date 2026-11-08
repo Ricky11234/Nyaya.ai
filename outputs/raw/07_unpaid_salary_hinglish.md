@@ -5,52 +5,62 @@ _Mode: normal_
 ## User
 Meri company ne 3 mahine se salary nahi di, HR bolta hai wait karo. Main Bangalore mein ek startup mein kaam karta hoon. Kya kar sakta hoon?
 
-**Reply language:** Hinglish · **Source:** vectorstore · **Confidence:** HIGH · **Time:** 16.0s
+**Reply language:** Hinglish · **Source:** vectorstore · **Confidence:** MEDIUM · **Time:** 5.8s
 
 ## Nyaya.ai
-- Apne salary slips, bank statements aur HR ke emails ka print‑out rakh lo – ye proof ke kaam aayega.  
-- Ek formal written notice (email ya registered letter) HR/management ko bhejo, jisme 7 din ke andar salary pay karne ki demand karo (Code on Wages, 2019 ke Section 17(1)(iv) ke hisaab se).  
-- Agar 7 din ke baad bhi paisa na mile, to apne state ke Labour Commissioner ya Inspector ko complaint file karo – online SAMADHAN portal (samadhan.labour.gov.in) se bhi kar sakte ho.  
-- Complaint ke saath sabhi proof (salary slips, notice copy, HR ke replies) attach karo, taaki investigation asaan ho.  
-- Agar employer fir bhi comply nahi karta, to ek lawyer se legal notice ya labour court me case file karne ka socho – aapko NALSA (15100) se free legal aid bhi mil sakti hai.  
+- Apne appointment letter ya salary slip mein likha wage‑period (daily/weekly/monthly) check karo – yeh Sec 16 ke hisaab se hota hai.  
+- Sec 17 ke mutabik employer ko har wage‑period ke end tak salary deni hoti hai (monthly salary ke liye agle mahine ke 7th din tak). 3 mahine tak delay illegal hai.  
+- HR se jo bhi emails, chat ya letters mile hain, unka screenshot ya print‑out safe rakh lo – yeh aapka proof banega.  
+- State Labour Commissioner ya Inspector ko complaint file karo, ya SAMADHAN portal (samadhan.labour.gov.in) pe online complaint daalo, aur sab documents attach karo.  
+- Agar employer fir bhi nahi deta, to aap labour court mein case file kar sakte ho; Sec 57 ke tahat aise claim ko block nahi kiya gaya hai.  
 
 **Based on: Code on Wages, 2019**
 
+⚠️ Not found in the sources: A delay of up to 3 months in salary payment is illegal.; Section 57 of the Code on Wages, 2019 does not block claims for unpaid salary from being filed in labour court.. Please double-check these points before acting on them.
+
 **Citation check:**
-- Section 17 of the Code on Wages, 2019: verified
-- Section 1 of the Code on Wages, 2019: verified
+- Section 16: verified
+- Section 17: verified
+- Section 57: verified
+
+**Grounded:** 4/6 claims found in the sources (67%)
+- SUPPORTED: The wage period (daily, weekly, or monthly) is determined by Section 16 of the Code on Wages, 2019.
+- SUPPORTED: Under Section 17, the employer must pay monthly wages before the expiry of the seventh day of the succeeding month.
+- NOT_SUPPORTED: A delay of up to 3 months in salary payment is illegal.
+- SUPPORTED: Complaints regarding unpaid salary can be filed with the State Labour Commissioner or Inspector.
+- SUPPORTED: Complaints regarding unpaid salary can be filed online on the SAMADHAN portal (samadhan.labour.gov.in).
+- NOT_SUPPORTED: Section 57 of the Code on Wages, 2019 does not block claims for unpaid salary from being filed in labour court.
 
 ## Case file
 **Problem:** Salary not paid for 3 months
 
-The employee has not received salary for the past three months while working at a startup in Bangalore. The HR department has asked the employee to wait.
+Employee has not received salary for the last three months. HR has advised to wait.
 
-**Other party:** the startup company where the employee works
+**Other party:** the employer/startup
 **Amount:** not mentioned
-**You want:** Payment of the pending salary for the three months
+**You want:** To receive the unpaid salary for the last three months and seek legal remedy.
 
 **Timeline**
-- not mentioned: Salary not paid for three months
-- not mentioned: HR told employee to wait
+- not mentioned: Salary not paid for 3 months
+- not mentioned: HR advised to wait
 
 **Proof to collect now**
 - employment contract
-- salary slips or payslips
-- bank statements showing non-receipt of salary
-- email or chat correspondence with HR
-- attendance records
+- salary slips or pay stubs
+- bank statements showing no salary deposits
+- HR emails or messages
 
 **I still need to know**
-- Exact amount of salary pending kitna hai?
-- Kya aapke paas employment contract ya salary slip ka koi document hai?
-- HR se aapke paas koi written communication (email/chat) hai?
-- Kya aapne pehle koi formal grievance ya notice diya hai?
+- Kya aapke paas employment contract hai?
+- Kya aapke paas salary slips ya bank statements dikhate hain ki salary nahi aayi?
+- HR ne koi written notice bheja?
+- Kya aapne koi formal complaint file ki?
 
 ## Draft: Legal notice
-_Law pages used: Code on Wages, 2019, p.8, Code on Wages, 2019, p.8, Code on Wages, 2019, p.5, Code on Wages, 2019, p.16, Code on Wages, 2019, p.4, Code on Wages, 2019, p.13_
+_Law pages used: Code on Wages, 2019, p.8, Code on Wages, 2019, p.8, Code on Wages, 2019, p.16, Code on Wages, 2019, p.6, Code on Wages, 2019, p.3, Code on Wages, 2019, p.10_
 
 **How to use this draft**  
-Is draft ko apne [YOUR FULL NAME] aur [STARTUP COMPANY NAME] ke details se fill karo. Saare documents – employment contract, payslips, bank statements, HR ke emails/chat – attach karna na bhoolna. Ek copy apne records ke liye rakh lo aur court me file karne se pehle ek lawyer se review karwa lo.  
+Is draft ko apne details se fill karo – naam, address, dates, aur unpaid salary ka amount. Saath hi employment contract, salary slips, bank statements aur HR ke emails attach karna na bhoolna. Ek copy apne records ke liye rakh lo aur court ya labour forum me file karne se pehle ek lawyer se review karwa lo.  
 
 ---  
 
@@ -58,77 +68,80 @@ Is draft ko apne [YOUR FULL NAME] aur [STARTUP COMPANY NAME] ke details se fill 
 
 **Date:** [DATE OF NOTICE]  
 
-**To,**  
-The Managing Director / HR Manager  
-[STARTUP COMPANY NAME]  
-[COMPANY ADDRESS]  
-Bangalore, Karnataka  
+**To**  
+[EMPLOYER/STARTUP NAME]  
+[EMPLOYER ADDRESS]  
 
-**From,**  
-[YOUR FULL NAME]  
-[YOUR ADDRESS]  
-Bangalore, Karnataka  
-
-**Subject:** Demand for Payment of Pending Salary for the Past Three Months  
+**From**  
+[EMPLOYEE NAME]  
+[EMPLOYEE ADDRESS]  
 
 ---
 
-**1. Parties**  
-The above‑named employee (“Employee”) was engaged by the above‑named employer (“Employer”) as a [DESIGNATION] under an employment contract dated [DATE OF EMPLOYMENT CONTRACT] (copy attached).  
+### 1.  **Background / Facts**
 
-**2. Facts**  
+1.1. The undersigned was employed by the above‑named employer as a [DESIGNATION] under an employment contract dated [EMPLOYMENT CONTRACT DATE] (the “Employment Contract”).  
 
-| Date / Period | Event |
-|---------------|-------|
-| [MONTH‑1] – [MONTH‑3] (last three months) | No salary was credited to the Employee’s bank account despite the Employee having rendered full attendance and performed duties as per the employment contract (attendance records attached). |
-| [DATE OF HR COMMUNICATION] | The HR department informed the Employee to “wait” for the salary to be released, without providing any written justification or a timeline for payment (email/chat screenshot attached). |
+1.2. As per the terms of the Employment Contract and the statutory provisions governing wages in India, the employer is obligated to pay the employee’s salary on a monthly basis.  
 
-**3. Applicable Law**  
+1.3. The employee has not received his/her salary for the last three months, i.e., for the wage periods ending [MONTH 1], [MONTH 2] and [MONTH 3] (the “Unpaid Salary”).  
 
-- **Code on Wages, 2019 – Section 16**: The employer shall fix the wage period not exceeding one month.  
-- **Code on Wages, 2019 – Section 17(1)(iv)**: Where wages are payable on a monthly basis, they must be paid **before the expiry of the seventh day of the succeeding month**.  
+1.4. On [DATE OF HR COMMUNICATION, if known] the employee approached the Human Resources department regarding the non‑payment. The HR representative advised the employee to “wait”, without providing any written assurance of payment.  
 
-The Employer’s failure to credit the Employee’s salary for three consecutive months is a clear violation of the above statutory provisions.  
+1.5. Despite repeated verbal reminders, the employer has failed to remit the salary due for the aforesaid three months.  
 
-**4. Claim**  
+### 2.  **Statutory Basis for Claim**
 
-The Employee is entitled to receive the full salary for the months of **[MONTH‑1]**, **[MONTH‑2]**, and **[MONTH‑3]**, amounting to **₹[TOTAL AMOUNT PENDING]** (detailed salary computation attached).  
+2.1. **Code on Wages, 2019 – Section 17(1)(iv)** mandates that where wages are payable on a monthly basis, they must be paid *“before the expiry of the seventh day of the succeeding month.”*  
 
-**5. Remedy Sought**  
+2.2. **Section 16** of the same Code requires that the wage period for any employee shall not exceed one month, thereby confirming that the employee’s salary for each month is a distinct, payable debt.  
 
-The Employee hereby demands that the Employer:
+2.3. **Section 18** prohibits any unauthorized deduction from wages, reinforcing the employee’s right to receive the full amount due.  
 
-1. Pay the pending salary of **₹[TOTAL AMOUNT PENDING]** (including any statutory interest, if applicable) **within fifteen (15) days** from the receipt of this notice, i.e., on or before **[DEADLINE DATE]**.  
-2. Confirm in writing that future salaries will be paid in accordance with the wage period prescribed under the Code on Wages, 2019.  
+2.4. Accordingly, the employer is in clear breach of the Code on Wages, 2019 by failing to pay the salary within the statutory time‑limit and by withholding wages without lawful justification.  
 
-**6. Consequence of Non‑Compliance**  
+### 3.  **Remedy Sought**
 
-If the Employer fails to make the payment within the stipulated fifteen (15) days, the Employee will be constrained to initiate appropriate legal proceedings, including but not limited to filing a complaint before the **Labour Commissioner/Industrial Tribunal** under the Code on Wages, 2019, and seeking recovery of the dues along with interest, costs, and any other relief deemed appropriate by the forum.  
+The employee hereby demands that the employer:
 
-**7. Documents Annexed**  
+a) Pay the total unpaid salary amounting to **₹ [UNPAID SALARY AMOUNT]** (representing salary for the months of [MONTH 1], [MONTH 2] and [MONTH 3]), together with any applicable interest as may be awarded by the appropriate forum; and  
 
-1. Copy of the employment contract.  
-2. Salary slips / payslips for the months in question (if any).  
-3. Bank statements showing non‑receipt of salary.  
-4. Email / chat correspondence with HR.  
-5. Attendance records for the relevant period.  
+b) Confirm in writing that all future salary payments will be made in accordance with the statutory timelines prescribed under the Code on Wages, 2019.  
 
-**8. Declaration**  
+The above payment must be effected **within fifteen (15) days** from the receipt of this notice, i.e., on or before **[DATE – 15 DAYS FROM NOTICE]**.  
 
-The contents of this notice are true to the best of the Employee’s knowledge and belief.  
+### 4.  **Consequences of Non‑Compliance**
 
-**Yours faithfully,**  
+If the employer fails to comply with the above demand within the stipulated period, the employee shall be constrained to institute appropriate legal proceedings, including but not limited to:
 
-_____________________________  
-[YOUR FULL NAME]  
-[YOUR CONTACT NUMBER]  
-[YOUR EMAIL ADDRESS]  
+* filing a complaint before the Labour Commissioner/Industrial Tribunal under the provisions of the Code on Wages, 2019; and  
+* seeking recovery of the unpaid wages, interest, costs of litigation, and any other relief that the competent authority may deem fit.  
 
-*Copy to:*  
-- Legal Department, [STARTUP COMPANY NAME]  
-- Self‑filed copy for records  
+The employee expressly reserves all rights and remedies available under law, and nothing in this notice shall be construed as a waiver of any such rights.  
+
+### 5.  **Verification**
+
+I, [EMPLOYEE NAME], do hereby certify that the contents of this notice are true and correct to the best of my knowledge and belief.  
+
+**Signature:** _______________________  
+
+**Name:** [EMPLOYEE NAME]  
+
+**Date:** [DATE OF NOTICE]  
 
 ---  
+
+*Enclosures (to be attached):*  
+
+1. Copy of the Employment Contract.  
+2. Salary slips/pay stubs for the months of [MONTH 1], [MONTH 2] and [MONTH 3] (if any).  
+3. Bank statements showing non‑receipt of salary for the said months.  
+4. Correspondence with HR (emails / messages) advising to “wait”.  
+
+*Copy to:*  
+
+* [EMPLOYEE’S LEGAL COUNSEL – if any]  
+* [Labour Commissioner/Industrial Tribunal – for information, if deemed appropriate]  
 
 (Drafted with AI help by Nyaya.ai. Not legal advice. Please have a lawyer review it before filing.)
 

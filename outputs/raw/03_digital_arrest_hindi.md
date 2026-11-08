@@ -5,49 +5,54 @@ _Mode: normal_
 ## User
 मुझे एक कॉल आया कि मैं CBI की डिजिटल अरेस्ट में हूँ और मुझे 2 लाख रुपये भेजने होंगे वरना जेल होगी। क्या यह सच है? मुझे क्या करना चाहिए?
 
-**Reply language:** Hindi · **Source:** external · **Confidence:** MEDIUM · **Time:** 15.1s
+**Reply language:** Hindi · **Source:** vectorstore · **Confidence:** HIGH · **Time:** 8.3s
 
 ## Nyaya.ai
-Source: External Search  
+- ऐसी कॉल अक्सर धोखा होती है; यदि कोई आपको फोन पर पैसे देने को कहे तो सावधान रहें और तुरंत 1930 पर रिपोर्ट करें।  
+- अगर पुलिस या किसी अन्य एजेंसी आपको गिरफ्तार करती है, तो section 38 के अनुसार आपको पूछ‑ताछ के दौरान अपनी पसंद का वकील मिलने का अधिकार है।  
+- बिना वारंट के arrest के लिए police को section 45 के तहत व्यक्ति को कहीं भी पकड़ने का अधिकार है, और section 47 के अनुसार उन्हें अपराध के पूर्ण विवरण देना अनिवार्य है।  
+- इस प्रकार की मांग को 1930 पर रिपोर्ट करें और cybercrime.gov.in पर ऑनलाइन शिकायत दर्ज करें; कॉल का रिकॉर्ड सुरक्षित रखें।  
+- यदि आप वास्तव में गिरफ्तार हुए हैं तो NALSA (15100) से मुफ्त वकील की मदद लें।  
 
-अपलोड किए गए कानूनी कॉर्पस में इस प्रश्न का कोई उत्तर नहीं मिला। नीचे बाहरी स्रोतों की जानकारी के आधार पर सरल सलाह दी गई है:
-
-- CBI ने स्पष्ट किया है कि “डिजिटल अरेस्ट” नाम का कोई कानूनी अवधारणा नहीं है; यह एक धोखाधड़ी स्कैम है।  
-- ऐसे कॉल पर पैसे न भेजें और तुरंत राष्ट्रीय साइबर‑क्राइम हेल्पलाइन 1930 पर रिपोर्ट करें या cybercrime.gov.in पर शिकायत दर्ज करें।  
-- कॉल में बताए गए अधिकारी के नाम, फोन नंबर या बैंक विवरण को किसी के साथ साझा न करें; वास्तविक CBI कभी भी फोन पर ऐसी मांग नहीं करता।  
-- यदि आप पहले ही पैसा ट्रांसफ़र कर चुके हैं, तो अपने बैंक को तुरंत ब्लॉक करने और फ़्रॉड रिपोर्ट करने के लिए कहें, तथा पुलिस स्टेशन में एफआईआर दर्ज कराएँ।  
-- अपने परिवार और भरोसेमंद लोगों को स्थिति के बारे में बताएँ ताकि वे भी सतर्क रहें।  
-
-Based on: web search  
-
-Confidence Level: Medium
+**Based on: Bharatiya Nagarik Suraksha Sanhita, 2023**
 
 **Citation check:**
-- nothing cited
+- Section 38: verified
+- Section 45: verified
+- Section 47: verified
+- Bharatiya Nagarik Suraksha Sanhita, 2023: verified
+
+**Grounded:** 6/6 claims found in the sources (100%)
+- SUPPORTED: Report cyber fraud calls to 1930.
+- SUPPORTED: Under Section 38, a person arrested and interrogated by police is entitled to meet an advocate of their choice during interrogation.
+- SUPPORTED: Under Section 45, a police officer may pursue a person into any place in India for the purpose of arresting without a warrant.
+- SUPPORTED: Under Section 47, a police officer arresting a person without a warrant must communicate full particulars of the offence or grounds for arrest.
+- SUPPORTED: File an online complaint at cybercrime.gov.in.
+- SUPPORTED: Contact NALSA helpline 15100 for free legal aid.
 
 ## Case file
-**Problem:** Scam call demanding money
+**Problem:** CBI digital arrest scam
 
-The person received a phone call claiming they are under a CBI digital arrest and were asked to send Rs 2,00,000 to avoid jail. They are unsure if the claim is true and seek guidance on what to do.
+The person received a call claiming they are under CBI digital arrest and must send 2 lakh rupees or face jail. They are uncertain if this is true and seek advice.
 
-**Other party:** Caller claiming to be from CBI (Central Bureau of Investigation)
+**Other party:** CBI
 **Amount:** Rs 2,00,000
-**You want:** Advice to stop the scam, avoid sending money, and initiate action against the perpetrators.
+**You want:** To confirm the legitimacy of the claim and avoid paying money; to seek legal protection.
 
 **Timeline**
-- not mentioned: Received a phone call alleging a CBI digital arrest and demanding Rs 2,00,000
+- not mentioned: Received a call claiming they are under CBI digital arrest and must send 2 lakh rupees or face jail.
+
+**Proof you have**
+- Phone call
 
 **Proof to collect now**
-- Call recording or screenshot of the call log showing the incoming number
-- Any SMS/WhatsApp messages or voice notes received from the caller
-- Bank transaction receipts if any money was transferred
-- Details of the phone number and caller ID
+- Call record, screenshot of call, any written communication
 
 **I still need to know**
-- कॉल किस तारीख और समय पर आया?
-- कॉल करने वाले का फ़ोन नंबर या कॉल‑आइडेंटिफ़ायर क्या है?
-- क्या आपने कोई पैसा ट्रांसफ़र किया है? यदि हाँ, तो ट्रांसफ़र का विवरण दें।
-- क्या आपके पास कॉल की रिकॉर्डिंग या कोई लिखित संदेश है?
+- कॉल कब और किस समय आया था?
+- कॉल में कौन सा नंबर या नाम बताया गया था?
+- क्या आपके पास कॉल का रिकॉर्ड या स्क्रीनशॉट है?
+- क्या आपको कोई लिखित सूचना या ईमेल मिला है?
 
 ## Automatic checks
 - language: PASS

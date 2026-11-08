@@ -1,20 +1,5 @@
-"""Safety checks written as plain code, not left to the model.
-
-1. escalation_flags(): fixed rules for when to tell someone they need a real
-   lawyer (or the police, or a crisis line). A rule always fires; a model can
-   forget or be talked out of a warning.
-
-2. verify_citations(): every section number, Act name and case name in an
-   answer is checked against the text the answer was supposed to come from
-   (the retrieved law pages, or the web results). Anything not found is
-   flagged to the user and the confidence is lowered.
-"""
-
 import re
 
-# ---------------------------------------------------------------------------
-# 1. When to send the person to a real lawyer
-# ---------------------------------------------------------------------------
 ESCALATION_RULES = [
     {
         "rule": "arrest_or_custody",
@@ -47,7 +32,18 @@ _AMOUNT = re.compile(
     r"(?:₹|rs\.?|inr|rupees?)\s*([\d,]+(?:\.\d+)?)\s*(lakh|lac|crore|cr)?|([\d.]+)\s*(lakh|lac|crore|cr)\b",
     re.IGNORECASE,
 )
-HIGH_VALUE = 10_00_000  # ₹10 lakh
+HIGH_VALUE = 10_00_000
+
+STATUTE_WORDING = [
+    (r"anticipatory bail|apprehend\w* arrest|fear\w* (of )?(being )?arrest", "direction for grant of bail to person apprehending arrest"),
+    (r"arrest|custody|picked up|detain|giraftar|हिरासत|गिरफ्तार", "person arrested to be informed of grounds of arrest and of right to bail; person arrested not to be detained more than twenty-four hours"),
+    (r"limitation|time limit|how long .*(file|complain|sue)|within how many|kitne (time|din)", "limitation period for filing complaint"),
+    (r"deposit", "security deposit refund on vacating premises"),
+    (r"salary|wages|not paid|unpaid|tankhwah", "time limit for payment of wages; claims under the Code"),
+    (r"hack|password|impersonat|fake (profile|account)", "computer related offences; punishment for identity theft; punishment for cheating by personation by using computer resource"),
+    (r"refund|defect|warranty|repair|deficien", "deficiency; defect; complaint to District Commission; unfair trade practice"),
+    (r"domestic violence|beat|abuse|husband|in-laws", "protection orders; residence orders; application to Magistrate"),
+]
 
 
 def _amounts(text):
@@ -67,10 +63,13 @@ def _amounts(text):
     return found
 
 
+def statute_terms(text):
+    terms = [words for pattern, words in STATUTE_WORDING if re.search(pattern, text, re.IGNORECASE)]
+    return "; ".join(terms)
+
+
 def escalation_flags(*texts):
-    """Returns a list of {"rule", "message"} for every rule the texts trigger."""
     text = " ".join(t for t in texts if t)
-    # "digital arrest" is a scam, not an arrest: don't trigger the arrest rule on it.
     text = re.sub(r"digital\s+arrest|डिजिटल\s+अरेस्ट|डिजिटल\s+गिरफ्तारी", "digital-scam", text, flags=re.IGNORECASE)
     flags = []
     for r in ESCALATION_RULES:
@@ -85,22 +84,16 @@ def escalation_flags(*texts):
     return flags
 
 
-# ---------------------------------------------------------------------------
-# 2. Citation checking
-# ---------------------------------------------------------------------------
 _SECTION = re.compile(
-    r"\b(?:sections?|secs?\.?|s\.|u/s|धारा|dhara)\s*((?:\d{1,3}[A-Z]{0,2}(?:\(\d+\))*(?:\s*(?:,|and|&|or|to|aur|और|/|-|–)\s*)?)+)",
+    r"(?<![/\w-])(?:sections?|secs?\.?|s\.|u/s|धारा|dhara)\s*((?:\d{1,3}(?!\d)[A-Z]{0,2}(?:\(\d+\))*(?:\s*(?:,|and|&|or|to|aur|और|/|-|–)\s*)?)+)",
     re.IGNORECASE,
 )
 _NUM = re.compile(r"\d{1,3}[A-Z]{0,2}", re.IGNORECASE)
 _ACT = re.compile(r"\b((?:[A-Z][A-Za-z()'&-]*\s){1,7}(?:Act|Sanhita|Code|Rules|Adhiniyam))(?:,)?\s*(?:of\s*)?(\d{4})")
-# A party name is 1-5 capitalised words (no full stops, so it can't run into
-# the next sentence), optionally joined by "of", e.g. "State of Delhi".
 _PARTY = r"[A-Z][A-Za-z&]*(?:\s(?:of\s)?[A-Z][A-Za-z&]*){0,4}"
 _CASE = re.compile(rf"\b({_PARTY})\s+(?:v\.|vs\.?|versus)\s+({_PARTY})")
 _LEAD_WORDS = {"the", "under", "as", "per", "see", "refer", "according", "to", "of", "in", "and", "also", "this", "that"}
 
-# Words in a sentence that tell us which of our Acts it is talking about.
 ACT_HINTS = {
     "Information Technology Act, 2000": r"\bIT Act\b|Information Technology",
     "Consumer Protection Act, 2019": r"Consumer Protection|\bCPA\b",
@@ -111,8 +104,6 @@ ACT_HINTS = {
 }
 
 
-# Old laws replaced on 1 July 2024. A section quoted from one of these must not
-# be checked (or labelled) as if it came from the new law.
 REPEALED = {
     "CrPC (replaced by the BNSS in 2024)": r"\bCr\.?P\.?C\b|Criminal Procedure",
     "IPC (replaced by the BNS in 2024)": r"\bIPC\b|Indian Penal Code|Penal Code",
@@ -123,7 +114,7 @@ REPEALED = {
 def _section_in(num, text):
     n = re.escape(num)
     patterns = [
-        rf"(?<![\w.(]){n}\.\s*[\(A-Z“\"\-—–]",  # statute heading: "66C. Punishment..."
+        rf"(?<![\w.(]){n}\.\s*[\(A-Z“\"\-—–]",
         rf"\bsections?\s+{n}\b",
         rf"\bsec\.?\s*{n}\b",
         rf"धारा\s*{n}\b",
@@ -141,13 +132,10 @@ def extract_citations(answer):
     cites = []
     for m in _SECTION.finditer(answer):
         sentence = _sentence_around(answer, m.start(), m.end())
-        # The Act named right next to the number wins ("CrPC Section 50, now BNSS
-        # Section 47" must not turn Section 50 into a BNSS section).
         near = answer[max(0, m.start() - 30) : m.end() + 30]
         act = next((name for name, pat in REPEALED.items() if re.search(pat, near, re.IGNORECASE)), None)
         if act is None:
             act = next((name for name, pat in ACT_HINTS.items() if re.search(pat, sentence, re.IGNORECASE)), None)
-        # "35(1)(i)" is Section 35; the brackets are sub-sections, not more sections.
         for num in _NUM.findall(re.sub(r"\([^)]*\)", "", m.group(1))):
             cites.append({"type": "section", "value": num.upper(), "act": act})
     for m in _ACT.finditer(answer):
@@ -172,9 +160,6 @@ def extract_citations(answer):
 
 
 def verify_citations(answer, law_pages, web_text=""):
-    """law_pages: list of (act_name, page_text) for the retrieved law chunks.
-    web_text: the web search results the answer was given (empty if none).
-    Returns every citation found with status verified / wrong_act / unverified."""
     by_act = {}
     for act, text in law_pages:
         by_act.setdefault(act, []).append(text)
@@ -213,7 +198,6 @@ def describe(c):
 
 
 def warning_note(results):
-    """A short note to append to the answer when something could not be checked."""
     note = ""
     old = [r for r in results if r["status"] == "repealed"]
     bad = [r for r in results if r["status"] not in ("verified", "repealed")]
@@ -239,8 +223,6 @@ TENANCY_NOTE = (
 
 
 def tenancy_caveat(answer):
-    """Adds the 'model law' warning whenever an answer relies on the Model
-    Tenancy Act without saying it only applies where a state adopted it."""
     if re.search(r"Tenancy Act|किरायेदारी", answer, re.IGNORECASE) and not re.search(r"adopt", answer, re.IGNORECASE):
         return TENANCY_NOTE
     return ""

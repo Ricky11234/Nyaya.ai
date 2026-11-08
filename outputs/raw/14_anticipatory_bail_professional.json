@@ -22,18 +22,126 @@
     {
       "input": "Under the BNSS 2023, what are the conditions and procedure for granting anticipatory bail?",
       "result": {
-        "answer": "Error: Error code: 429 - {'error': {'message': 'Rate limit reached for model `openai/gpt-oss-120b` in organization `org_01kna4v2pveeqte4fhn8k8mctr` service tier `on_demand` on tokens per day (TPD): Limit 200000, Used 199950, Requested 726. Please try again in 4m52.032s. Need more tokens? Upgrade to Dev Tier today at https://console.groq.com/settings/billing', 'type': 'tokens', 'code': 'rate_limit_exceeded'}}",
-        "source_type": "system",
-        "confidence": "LOW",
+        "answer": "**Important notice:**  \nSomeone may be in police custody or may face arrest. This is a serious matter – you should get a lawyer right away. Free legal‑aid lawyers are available through NALSA 15100 or at the police station/court.\n\n---\n\n### How anticipatory bail works under the Bharatiya Nagarik Suraksha Sanhita 2023 (BNSS)\n\n| Point | What the law says (source) |\n|-------|----------------------------|\n| **Who can apply** | A person can seek anticipatory bail by filing an application under **Section 482 BNSS** in the High Court or the Court of Session (as shown in case practice). |\n| **When the court may grant bail** | **Section 485(1) BNSS** allows a High Court or Court of Session to direct that a person in custody be released on bail. |\n| **Conditions the court may impose** | • **Section 480(3) BNSS** – for offences punishable with imprisonment of 7 years or more (or offences listed in Chapters VI, VII, XVII of the BNS), the court must impose the following conditions: <br> 1. Appear before the court when required (as per the bail bond). <br> 2. Not commit any offence of a similar nature while bail is in force. <br> 3. Not tamper with, conceal or destroy evidence, nor induce any witness to withhold testimony. <br>• **Section 485(1) BNSS** – the court may also impose any other condition it considers necessary for the purposes mentioned in sub‑section (3) of Section 482. |\n| **When the mandatory conditions apply** | The mandatory conditions of Section 480(3) apply only if the offence is punishable with imprisonment of **seven years or more**, or if it falls under **Chapters VI, VII, or XVII** of the Bharatiya Nyaya Sanhita 2023 (LiveLaw article). They are **not** mandatory for all offences. |\n\n---\n\n### Practical steps a lawyer would take\n\n1. **Draft the anticipatory bail petition** under **Section 482 BNSS**, stating why the applicant believes arrest is likely and describing the nature of the alleged offence.  \n2. **Cite the relevant provisions** – Section 482 for the right to apply, Section 485(1) for the court’s power to release on bail, and Section 480(3) for the mandatory conditions (if they apply).  \n3. **Argue that the applicant will comply** with any conditions the court may impose (e.g., appearing when required, not tampering with evidence).  \n4. **Request that the court impose only reasonable conditions**, pointing out that the mandatory conditions of Section 480(3) are limited to offences with imprisonment of 7 years or more.  \n5. **Be prepared to address any objections** from the prosecution, such as concerns about evidence tampering or witness intimidation, by showing the applicant’s willingness to cooperate with the investigation.\n\n---\n\n### What to do next\n\n- **Contact a lawyer immediately** – you can obtain a court‑appointed lawyer by calling **NALSA 15100**.  \n- **If you are already in police custody**, ask for a free legal‑aid lawyer at the station.  \n- **Keep a copy of this information** and share it with your counsel.\n\n---\n\n**Sources**  \n\n- LiveLaw article on **Section 480(3) BNSS** (mandatory bail conditions).  \n- **Section 485(1) BNSS** – power of High Court/Court of Session to direct bail.  \n- **Section 480(3) BNSS** – conditions for bail in serious offences.  \n- **Section 482 BNSS** – special powers of High Court/Court of Session (used for anticipatory bail).  \n\n*If any point is unclear or you need more detail, please consult a qualified lawyer.*\n\n⚠️ Not found in the sources: Section 485(1) BNSS allows the court to impose any other condition it considers necessary for the purposes mentioned in sub-section (3) of Section 482.. Please double-check these points before acting on them.",
+        "source_type": "external",
+        "confidence": "MEDIUM",
         "reply_language": "English",
-        "escalations": [],
-        "citations": []
+        "escalations": [
+          {
+            "rule": "arrest_or_custody",
+            "message": "Someone is in police custody or may be arrested. This needs a real lawyer now. Everyone has a right to a free lawyer: call NALSA 15100, or ask for the legal aid lawyer at the police station or court."
+          }
+        ],
+        "citations": [
+          {
+            "type": "section",
+            "value": "482",
+            "act": "Bharatiya Nagarik Suraksha Sanhita, 2023",
+            "status": "verified"
+          },
+          {
+            "type": "section",
+            "value": "485",
+            "act": "Bharatiya Nagarik Suraksha Sanhita, 2023",
+            "status": "verified"
+          },
+          {
+            "type": "section",
+            "value": "480",
+            "act": "Bharatiya Nagarik Suraksha Sanhita, 2023",
+            "status": "verified"
+          },
+          {
+            "type": "section",
+            "value": "480",
+            "act": null,
+            "status": "verified"
+          },
+          {
+            "type": "section",
+            "value": "482",
+            "act": null,
+            "status": "verified"
+          },
+          {
+            "type": "section",
+            "value": "485",
+            "act": null,
+            "status": "verified"
+          },
+          {
+            "type": "act",
+            "value": "Bharatiya Nagarik Suraksha Sanhita, 2023",
+            "act": null,
+            "status": "verified"
+          },
+          {
+            "type": "act",
+            "value": "Bharatiya Nyaya Sanhita, 2023",
+            "act": null,
+            "status": "verified"
+          }
+        ],
+        "faithfulness": {
+          "score": 0.91,
+          "supported": 10,
+          "total": 11,
+          "unsupported": [
+            "Section 485(1) BNSS allows the court to impose any other condition it considers necessary for the purposes mentioned in sub-section (3) of Section 482."
+          ],
+          "claims": [
+            {
+              "claim": "Free legal-aid lawyers are available through NALSA 15100.",
+              "verdict": "SUPPORTED"
+            },
+            {
+              "claim": "A person can seek anticipatory bail by filing an application under Section 482 BNSS.",
+              "verdict": "SUPPORTED"
+            },
+            {
+              "claim": "Anticipatory bail applications under Section 482 BNSS are filed in the High Court or the Court of Session.",
+              "verdict": "SUPPORTED"
+            },
+            {
+              "claim": "Section 485(1) BNSS allows a High Court or Court of Session to direct that a person in custody be released on bail.",
+              "verdict": "SUPPORTED"
+            },
+            {
+              "claim": "Section 480(3) BNSS applies to offences punishable with imprisonment of 7 years or more.",
+              "verdict": "SUPPORTED"
+            },
+            {
+              "claim": "Section 480(3) BNSS applies to offences listed in Chapters VI, VII, or XVII of the Bharatiya Nyaya Sanhita, 2023.",
+              "verdict": "SUPPORTED"
+            },
+            {
+              "claim": "Under Section 480(3) BNSS, the court must impose a condition that the accused appear before the court when required.",
+              "verdict": "SUPPORTED"
+            },
+            {
+              "claim": "Under Section 480(3) BNSS, the court must impose a condition that the accused not commit any offence of a similar nature.",
+              "verdict": "SUPPORTED"
+            },
+            {
+              "claim": "Under Section 480(3) BNSS, the court must impose a condition that the accused not tamper with, conceal or destroy evidence, nor induce any witness to withhold testimony.",
+              "verdict": "SUPPORTED"
+            },
+            {
+              "claim": "Section 485(1) BNSS allows the court to impose any other condition it considers necessary for the purposes mentioned in sub-section (3) of Section 482.",
+              "verdict": "NOT_SUPPORTED"
+            },
+            {
+              "claim": "The mandatory conditions of Section 480(3) BNSS are not mandatory for all offences.",
+              "verdict": "SUPPORTED"
+            }
+          ]
+        }
       },
-      "seconds": 0.3
+      "seconds": 45.1
     }
   ],
   "case_file": {
-    "problem_type": "Anticipatory bail query",
+    "problem_type": "Legal query about anticipatory bail",
     "summary": "The person is asking about the conditions and procedure for granting anticipatory bail under BNSS 2023.",
     "other_party": "not mentioned",
     "timeline": [
@@ -45,10 +153,10 @@
     "amount_involved": "not mentioned",
     "proof_you_have": [],
     "proof_to_collect": [],
-    "what_you_want": "Information on the conditions and procedure for granting anticipatory bail under BNSS 2023.",
+    "what_you_want": "Information on conditions and procedure for granting anticipatory bail under BNSS 2023",
     "questions_to_ask_you": [
       "Do you have a case number?",
-      "Do you know which court the case is pending in?",
+      "Do you know the court where the case is pending?",
       "Do you have any documents related to the case?",
       "Do you need help filing an anticipatory bail application?"
     ]
@@ -56,10 +164,10 @@
   "draft": null,
   "checks": {
     "language": true,
-    "source": false,
-    "lawyer_warning": false,
+    "source": true,
+    "lawyer_warning": true,
     "all_citations_verified": true,
-    "mentions": false
+    "mentions": true
   },
   "error": ""
 }
