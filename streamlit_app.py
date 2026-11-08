@@ -5,7 +5,7 @@ import time
 from main import AgenticRAG, legal_pdfs
 from src.language import languages
 from src.guards import guards, faithfulness
-from src.assist.case_tools import DOC_TYPES, case_to_markdown, draft_request, to_docx_bytes
+from src.assist.case_tools import DOC_TYPES, case_to_markdown, chat_request, to_docx_bytes
 from src.ui.theme import apply_theme, hero, loader
 
 st.set_page_config(
@@ -221,10 +221,14 @@ def render_answer(meta, answer):
         st.error("🧑‍⚖️ " + f["message"])
 
     source_type = meta.get("source_type")
-    if source_type == "draft":
-        st.info(f"📝 {meta.get('draft_type', 'Draft')} · {meta.get('reply_language', '')}")
+    if source_type in ("draft", "casefile"):
+        icon = "📝" if source_type == "draft" else "📁"
+        st.info(f"{icon} {meta.get('draft_type', 'Case file')} · {meta.get('reply_language', '')}")
         st.markdown(answer)
-        st.markdown(meta.get("draft_text", "").replace("\n", "  \n"))
+        if source_type == "draft":
+            st.markdown(meta.get("draft_text", "").replace("\n", "  \n"))
+        else:
+            st.markdown(meta.get("case_md", ""))
         citations = meta.get("citations", [])
         if citations:
             with st.expander("🔎 Citation check"):
@@ -349,30 +353,39 @@ if question:
         st.markdown(question)
 
     earlier = [m["content"] for m in history_for_model if m["role"] == "user"]
-    request = draft_request(question, earlier)
+    last_type = st.session_state.draft["type"] if st.session_state.draft else None
+    request = chat_request(question, earlier, last_type)
 
     if request:
-        doc_type, asked = request
+        kind, doc_type, asked = request
         lang = asked or current_language()
-        box = loader(f"Drafting your {doc_type.lower()}...", "Building your case file first, then writing it up.")
+        story = [m for m in earlier if not chat_request(m)] or [question]
         start = time.time()
+        if kind == "case":
+            box = loader("Organising your story into a case file...", "Only what you told me goes in. Nothing is made up.")
+        else:
+            box = loader(f"Drafting your {doc_type.lower()}...", "Building your case file first, then writing it up.")
         try:
-            st.session_state.case = rag_system.build_case(earlier + [question], lang)
-            st.session_state.draft = {"type": doc_type, **rag_system.draft(st.session_state.case, doc_type, lang)}
-            reply = (
-                f"Here is your {doc_type.lower()}, built from everything you told me. "
-                "You can edit and download it in the 📝 Draft section below the chat."
-            )
-            meta = {
-                "source_type": "draft",
-                "draft_type": doc_type,
-                "draft_text": st.session_state.draft["text"],
-                "reply_language": lang,
-                "citations": st.session_state.draft.get("citations", []),
-                "caption": f"⏱️ Response Time: {time.time() - start:.2f} seconds | 🗣️ Drafted in: {lang}",
-            }
+            st.session_state.case = rag_system.build_case(story, lang)
+            if kind == "case":
+                reply = "Here is your case file, built from everything you told me. You can download it in the 📁 Case file section below the chat."
+                meta = {"source_type": "casefile", "case_md": case_to_markdown(st.session_state.case, lang), "reply_language": lang}
+            else:
+                st.session_state.draft = {"type": doc_type, **rag_system.draft(st.session_state.case, doc_type, lang)}
+                reply = (
+                    f"Here is your {doc_type.lower()}, built from everything you told me. "
+                    "You can edit and download it in the 📝 Draft section below the chat."
+                )
+                meta = {
+                    "source_type": "draft",
+                    "draft_type": doc_type,
+                    "draft_text": st.session_state.draft["text"],
+                    "reply_language": lang,
+                    "citations": st.session_state.draft.get("citations", []),
+                }
+            meta["caption"] = f"⏱️ Response Time: {time.time() - start:.2f} seconds | 🗣️ In: {lang}"
         except Exception as e:
-            reply, meta = f"Sorry, I couldn't draft that right now: {e}", {"source_type": "system", "confidence": "LOW"}
+            reply, meta = f"Sorry, I couldn't do that right now: {e}", {"source_type": "system", "confidence": "LOW"}
         box.empty()
         st.session_state.chat_history.append({"role": "assistant", "content": reply, "meta": meta})
         st.rerun()

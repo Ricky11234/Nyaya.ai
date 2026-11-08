@@ -27,25 +27,42 @@ EMPTY_CASE = {
 }
 
 
-DRAFT_VERB = r"draft|write|prepare|make|create|generate|bana\w*|likh\w*|taiyar|तैयार|बना\w*|लिख\w*"
-DRAFT_NOUN = r"notice|complaint|letter|reply|e-?mail|mail|petition|नोटिस|शिकायत|पत्र|जवाब|jawab|shikayat"
-DRAFT_RE = re.compile(
-    rf"\b(?:{DRAFT_VERB})\b(?:\W+\S+){{0,6}}?\W+(?:{DRAFT_NOUN})|(?:{DRAFT_NOUN})(?:\W+\S+){{0,6}}?\W+(?:{DRAFT_VERB})\b",
-    re.IGNORECASE,
-)
+DRAFT_VERB = r"draft|redraft|write|rewrite|prepare|make|create|generate|give|convert|translate|change|redo|bana\w*|likh\w*|taiyar|तैयार|बना\w*|लिख\w*"
+DRAFT_NOUN = r"notice|complaint|letter|reply|e-?mail|mail|petition|application|draft|नोटिस|शिकायत|पत्र|जवाब|ड्राफ्ट|jawab|shikayat"
+CASE_VERB = r"build|make|create|prepare|update|show|give|redo|bana\w*|taiyar|तैयार|बना\w*"
+
+
+def _near(verbs, nouns):
+    return re.compile(
+        rf"\b(?:{verbs})\b(?:\W+\S+){{0,6}}?\W+(?:{nouns})|(?:{nouns})(?:\W+\S+){{0,6}}?\W+(?:{verbs})\b",
+        re.IGNORECASE,
+    )
+
+
+DRAFT_RE = _near(DRAFT_VERB, DRAFT_NOUN)
+DRAFT_CASE_RE = _near(r"draft|redraft|write|likh\w*|लिख\w*", r"case")
+CASE_RE = _near(CASE_VERB, r"case\s*file|case\s*summary|केस\s*फ़?फाइल|case")
 ASKED_LANGUAGE = [
-    (r"\b(in|into|mein|me)\s+english\b|english\s+(mein|me)\b|angrezi|अंग्रेज़ी|अंग्रेजी", "English"),
+    (r"\b(in|into|to|mein|me)\s+english\b|english\s+(mein|me)\b|angrezi|अंग्रेज़ी|अंग्रेजी", "English"),
     (r"\bhinglish\b", "Hinglish"),
-    (r"\b(in|into)\s+hindi\b|hindi\s+(mein|me)\b|हिंदी|हिन्दी", "Hindi"),
-    (r"\b(in|into)\s+(bengali|bangla)\b|বাংলা", "Bengali"),
-    (r"\b(in|into)\s+tamil\b|தமிழ்", "Tamil"),
-    (r"\b(in|into)\s+(odia|oriya)\b|ଓଡ଼ିଆ|ଓଡିଆ", "Odia"),
+    (r"\b(in|into|to)\s+hindi\b|hindi\s+(mein|me)\b|हिंदी|हिन्दी", "Hindi"),
+    (r"\b(in|into|to)\s+(bengali|bangla)\b|বাংলা", "Bengali"),
+    (r"\b(in|into|to)\s+tamil\b|தமிழ்", "Tamil"),
+    (r"\b(in|into|to)\s+(odia|oriya)\b|ଓଡ଼ିଆ|ଓଡିଆ", "Odia"),
 ]
 CYBER_WORDS = r"cyber|fraud|scam|hack|upi|otp|phishing|साइबर|धोखाधड़ी"
 
 
-def draft_request(text, earlier=()):
-    if not DRAFT_RE.search(text):
+def asked_language(text):
+    return next((lang for pattern, lang in ASKED_LANGUAGE if re.search(pattern, text, re.IGNORECASE)), None)
+
+
+def chat_request(text, earlier=(), last_draft_type=None):
+    if re.search(r"case\s*file|case\s*summary|केस\s*फ़?फाइल", text, re.IGNORECASE) and CASE_RE.search(text):
+        return "case", None, asked_language(text)
+    if not (DRAFT_RE.search(text) or DRAFT_CASE_RE.search(text)):
+        if CASE_RE.search(text) and re.search(r"\bmy case\b", text, re.IGNORECASE):
+            return "case", None, asked_language(text)
         return None
     low = text.lower()
     context = " ".join([text, *earlier]).lower()
@@ -55,12 +72,11 @@ def draft_request(text, earlier=()):
         doc_type = "Complaint email to company"
     elif re.search(r"notice|नोटिस", low):
         doc_type = "Legal notice"
-    elif re.search(CYBER_WORDS, context):
-        doc_type = "Cyber crime complaint"
+    elif re.search(r"complaint|शिकायत|shikayat", low):
+        doc_type = "Cyber crime complaint" if re.search(CYBER_WORDS, context) else "Consumer complaint"
     else:
-        doc_type = "Consumer complaint"
-    language = next((lang for pattern, lang in ASKED_LANGUAGE if re.search(pattern, text, re.IGNORECASE)), None)
-    return doc_type, language
+        doc_type = last_draft_type or "Legal notice"
+    return "draft", doc_type, asked_language(text)
 
 
 def _friendly_source(raw):
@@ -123,7 +139,7 @@ UNKNOWN = ("", "not mentioned", "unknown", "?", "n/a")
 
 
 def case_to_markdown(case, language="English"):
-    problem, party, amount, want, timeline, have, collect, ask, missing = LABELS.get(language, LABELS["English"])
+    problem, party, amount, want, _, have, collect, ask, missing = LABELS.get(language, LABELS["English"])
 
     def value(v):
         v = str(v or "").strip()
@@ -133,15 +149,6 @@ def case_to_markdown(case, language="English"):
     lines += [f"**{party}:** {value(case.get('other_party'))}", ""]
     lines += [f"**{amount}:** {value(case.get('amount_involved'))}", ""]
     lines += [f"**{want}:** {value(case.get('what_you_want'))}"]
-    if case.get("timeline"):
-        lines += ["", f"**{timeline}**"]
-        for e in case["timeline"]:
-            if isinstance(e, dict):
-                date = str(e.get("date") or "").strip()
-                if date.lower() in UNKNOWN:
-                    lines.append(f"- {e.get('event', '')}")
-                else:
-                    lines.append(f"- {date}: {e.get('event', '')}")
     for key, title in (("proof_you_have", have), ("proof_to_collect", collect), ("questions_to_ask_you", ask)):
         if case.get(key):
             lines += ["", f"**{title}**"] + [f"- {x}" for x in case[key]]
