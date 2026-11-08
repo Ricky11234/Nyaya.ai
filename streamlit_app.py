@@ -5,7 +5,7 @@ import time
 from main import AgenticRAG, legal_pdfs
 from src.language import languages
 from src.guards import guards, faithfulness
-from src.assist.case_tools import DOC_TYPES, case_to_markdown, to_docx_bytes
+from src.assist.case_tools import DOC_TYPES, case_to_markdown, draft_request, to_docx_bytes
 from src.ui.theme import apply_theme, hero, loader
 
 st.set_page_config(
@@ -165,11 +165,11 @@ hero("Your legal friend, in your language.")
 
 st.markdown(
     """
-Tell me your problem in your own words. I can:
+Tell me your problem in your own words. Everything you type in the chat builds your case. I can:
 
 - explain where you stand and what you can do, from the text of the law
 - tell you when you need a real lawyer
-- turn your story into a **case file** and **draft** a legal notice or complaint (below the chat)
+- turn your story into a **case file** and **draft** a legal notice or complaint: just ask in the chat, e.g. *"draft a legal notice in English"*, or use the sections below the chat
 
 I first search the law texts, then official websites if needed, and I check every section I cite.
 """
@@ -221,6 +221,20 @@ def render_answer(meta, answer):
         st.error("🧑‍⚖️ " + f["message"])
 
     source_type = meta.get("source_type")
+    if source_type == "draft":
+        st.info(f"📝 {meta.get('draft_type', 'Draft')} · {meta.get('reply_language', '')}")
+        st.markdown(answer)
+        st.markdown(meta.get("draft_text", "").replace("\n", "  \n"))
+        citations = meta.get("citations", [])
+        if citations:
+            with st.expander("🔎 Citation check"):
+                for c in citations:
+                    mark = "✅" if c["status"] in ("verified", "repealed") else "❌"
+                    st.markdown(f"{mark} {guards.describe(c)}: {c['status'].replace('_', ' ')}")
+        if meta.get("caption"):
+            st.caption(meta["caption"])
+        return
+
     confidence = meta.get("confidence", "LOW")
     label = {"vectorstore": "📚 Source: Legal Corpus", "external": "🌐 Source: External Search"}.get(
         source_type, "⚠️ System Response"
@@ -333,6 +347,35 @@ if question:
     with st.chat_message("user"):
 
         st.markdown(question)
+
+    earlier = [m["content"] for m in history_for_model if m["role"] == "user"]
+    request = draft_request(question, earlier)
+
+    if request:
+        doc_type, asked = request
+        lang = asked or current_language()
+        box = loader(f"Drafting your {doc_type.lower()}...", "Building your case file first, then writing it up.")
+        start = time.time()
+        try:
+            st.session_state.case = rag_system.build_case(earlier + [question], lang)
+            st.session_state.draft = {"type": doc_type, **rag_system.draft(st.session_state.case, doc_type, lang)}
+            reply = (
+                f"Here is your {doc_type.lower()}, built from everything you told me. "
+                "You can edit and download it in the 📝 Draft section below the chat."
+            )
+            meta = {
+                "source_type": "draft",
+                "draft_type": doc_type,
+                "draft_text": st.session_state.draft["text"],
+                "reply_language": lang,
+                "citations": st.session_state.draft.get("citations", []),
+                "caption": f"⏱️ Response Time: {time.time() - start:.2f} seconds | 🗣️ Drafted in: {lang}",
+            }
+        except Exception as e:
+            reply, meta = f"Sorry, I couldn't draft that right now: {e}", {"source_type": "system", "confidence": "LOW"}
+        box.empty()
+        st.session_state.chat_history.append({"role": "assistant", "content": reply, "meta": meta})
+        st.rerun()
 
     box = loader("Weighing your case...")
 

@@ -27,6 +27,42 @@ EMPTY_CASE = {
 }
 
 
+DRAFT_VERB = r"draft|write|prepare|make|create|generate|bana\w*|likh\w*|taiyar|तैयार|बना\w*|लिख\w*"
+DRAFT_NOUN = r"notice|complaint|letter|reply|e-?mail|mail|petition|नोटिस|शिकायत|पत्र|जवाब|jawab|shikayat"
+DRAFT_RE = re.compile(
+    rf"\b(?:{DRAFT_VERB})\b(?:\W+\S+){{0,6}}?\W+(?:{DRAFT_NOUN})|(?:{DRAFT_NOUN})(?:\W+\S+){{0,6}}?\W+(?:{DRAFT_VERB})\b",
+    re.IGNORECASE,
+)
+ASKED_LANGUAGE = [
+    (r"\b(in|into|mein|me)\s+english\b|english\s+(mein|me)\b|angrezi|अंग्रेज़ी|अंग्रेजी", "English"),
+    (r"\bhinglish\b", "Hinglish"),
+    (r"\b(in|into)\s+hindi\b|hindi\s+(mein|me)\b|हिंदी|हिन्दी", "Hindi"),
+    (r"\b(in|into)\s+(bengali|bangla)\b|বাংলা", "Bengali"),
+    (r"\b(in|into)\s+tamil\b|தமிழ்", "Tamil"),
+    (r"\b(in|into)\s+(odia|oriya)\b|ଓଡ଼ିଆ|ଓଡିଆ", "Odia"),
+]
+CYBER_WORDS = r"cyber|fraud|scam|hack|upi|otp|phishing|साइबर|धोखाधड़ी"
+
+
+def draft_request(text, earlier=()):
+    if not DRAFT_RE.search(text):
+        return None
+    low = text.lower()
+    context = " ".join([text, *earlier]).lower()
+    if re.search(r"reply|jawab|जवाब|respond", low):
+        doc_type = "Reply to a notice"
+    elif re.search(r"e-?mail|\bmail\b", low):
+        doc_type = "Complaint email to company"
+    elif re.search(r"notice|नोटिस", low):
+        doc_type = "Legal notice"
+    elif re.search(CYBER_WORDS, context):
+        doc_type = "Cyber crime complaint"
+    else:
+        doc_type = "Consumer complaint"
+    language = next((lang for pattern, lang in ASKED_LANGUAGE if re.search(pattern, text, re.IGNORECASE)), None)
+    return doc_type, language
+
+
 def _friendly_source(raw):
     from src.nodes.node import Nodes
 
