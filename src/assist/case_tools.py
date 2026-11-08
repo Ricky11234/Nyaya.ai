@@ -48,21 +48,22 @@ What the person has said so far:
 Return ONLY a JSON object with exactly these keys:
 {{
   "problem_type": "short label, e.g. 'Refund not given for defective product'",
-  "summary": "2 sentences in English, facts only",
+  "summary": "2 sentences, facts only",
   "other_party": "who the dispute is with (name/company if given, else describe)",
   "timeline": [{{"date": "as the person said it, or 'not mentioned'", "event": "what happened"}}],
   "amount_involved": "amount with Rs, or 'not mentioned'",
   "proof_you_have": ["documents/screenshots/witnesses the person says they have"],
   "proof_to_collect": ["practical proof they should gather now"],
-  "what_you_want": "the outcome the person wants, in English",
+  "what_you_want": "the outcome the person wants",
   "questions_to_ask_you": ["up to 4 short questions for missing facts needed to draft a notice or complaint"]
 }}
 
 Rules:
 - Use ONLY facts the person stated. Never invent names, dates, amounts or documents. Unknown = "not mentioned".
 - Put the timeline in order.
-- Write "questions_to_ask_you" in this language: {languages.instruction(language)}
-- Everything else in English (officials and companies read case files in English)."""
+- Language for every value: {languages.instruction(language)}
+- Keep Act names, section numbers, amounts, dates, order IDs and company names exactly as given.
+- For anything unknown, write exactly "not mentioned" in English, so the app can recognise it."""
     text = llm.invoke(prompt).content
     match = re.search(r"\{.*\}", text, re.DOTALL)
     try:
@@ -74,24 +75,48 @@ Rules:
     return {**EMPTY_CASE, **{k: v for k, v in data.items() if k in EMPTY_CASE}}
 
 
-def case_to_markdown(case):
-    lines = [f"**Problem:** {case.get('problem_type') or 'not mentioned'}", "", case.get("summary", ""), ""]
-    lines.append(f"**Other party:** {case.get('other_party') or 'not mentioned'}")
-    lines.append(f"**Amount:** {case.get('amount_involved') or 'not mentioned'}")
-    lines.append(f"**You want:** {case.get('what_you_want') or 'not mentioned'}")
+LABELS = {
+    "English": ["Problem", "Other party", "Amount", "You want", "Timeline", "Proof you have", "Proof to collect now", "I still need to know", "not mentioned"],
+    "Hindi": ["समस्या", "दूसरा पक्ष", "राशि", "आप क्या चाहते हैं", "घटनाक्रम", "आपके पास मौजूद सबूत", "अभी जुटाने वाले सबूत", "मुझे अभी यह जानना है", "नहीं बताया गया"],
+    "Bengali": ["সমস্যা", "অন্য পক্ষ", "টাকার পরিমাণ", "আপনি কী চান", "ঘটনাক্রম", "আপনার কাছে থাকা প্রমাণ", "এখন যে প্রমাণ জোগাড় করবেন", "আমার আরও জানা দরকার", "উল্লেখ করা হয়নি"],
+    "Tamil": ["பிரச்சனை", "எதிர் தரப்பு", "தொகை", "நீங்கள் விரும்புவது", "நிகழ்வுகளின் வரிசை", "உங்களிடம் உள்ள ஆதாரம்", "இப்போது சேகரிக்க வேண்டிய ஆதாரம்", "நான் இன்னும் தெரிந்துகொள்ள வேண்டியவை", "குறிப்பிடப்படவில்லை"],
+    "Odia": ["ସମସ୍ୟା", "ଅନ୍ୟ ପକ୍ଷ", "ରାଶି", "ଆପଣ କ'ଣ ଚାହାଁନ୍ତି", "ଘଟଣାକ୍ରମ", "ଆପଣଙ୍କ ପାଖରେ ଥିବା ପ୍ରମାଣ", "ଏବେ ସଂଗ୍ରହ କରିବାକୁ ଥିବା ପ୍ରମାଣ", "ମୋତେ ଆହୁରି ଜାଣିବା ଦରକାର", "ଉଲ୍ଲେଖ ନାହିଁ"],
+}
+
+UNKNOWN = ("", "not mentioned", "unknown", "?", "n/a")
+
+
+def case_to_markdown(case, language="English"):
+    problem, party, amount, want, timeline, have, collect, ask, missing = LABELS.get(language, LABELS["English"])
+
+    def value(v):
+        v = str(v or "").strip()
+        return missing if v.lower() in UNKNOWN else v
+
+    lines = [f"**{problem}:** {value(case.get('problem_type'))}", "", case.get("summary", ""), ""]
+    lines += [f"**{party}:** {value(case.get('other_party'))}", ""]
+    lines += [f"**{amount}:** {value(case.get('amount_involved'))}", ""]
+    lines += [f"**{want}:** {value(case.get('what_you_want'))}"]
     if case.get("timeline"):
-        lines += ["", "**Timeline**"]
+        lines += ["", f"**{timeline}**"]
         for e in case["timeline"]:
             if isinstance(e, dict):
-                lines.append(f"- {e.get('date', '?')}: {e.get('event', '')}")
-    for key, title in (
-        ("proof_you_have", "Proof you have"),
-        ("proof_to_collect", "Proof to collect now"),
-        ("questions_to_ask_you", "I still need to know"),
-    ):
+                date = str(e.get("date") or "").strip()
+                if date.lower() in UNKNOWN:
+                    lines.append(f"- {e.get('event', '')}")
+                else:
+                    lines.append(f"- {date}: {e.get('event', '')}")
+    for key, title in (("proof_you_have", have), ("proof_to_collect", collect), ("questions_to_ask_you", ask)):
         if case.get(key):
             lines += ["", f"**{title}**"] + [f"- {x}" for x in case[key]]
     return "\n".join(lines)
+
+
+def plain_text(text):
+    text = re.sub(r"\*\*(.+?)\*\*", r"\1", text)
+    text = re.sub(r"(?<![\w*])\*(?!\s)([^*\n]+?)(?<!\s)\*(?![\w*])", r"\1", text)
+    text = re.sub(r"^#{1,6}\s*", "", text, flags=re.MULTILINE)
+    return text
 
 
 def draft(llm, case, doc_type, law_docs, language="English"):
@@ -109,14 +134,16 @@ RULES
 - Use only facts from the case file. For anything missing (names, addresses, dates, order IDs, amounts), write a placeholder in square brackets and capitals, e.g. [YOUR FULL NAME], [ORDER ID].
 - Cite a section only if that exact number appears in the LAW SOURCES, and only for what it says there. If no source fits, refer to the Act generally or leave it out. Never invent case law.
 - If you rely on the Model Tenancy Act, 2021, note that it applies only if the person's state has adopted it.
-- Formal, clear English. No threats beyond lawful remedies.
+- Formal and clear. No threats beyond lawful remedies.
+- Language for the whole output, including the document: {languages.instruction(language)} Keep Act names, section numbers, amounts, dates and the [PLACEHOLDERS] in English.
+- Plain text only: no markdown, no asterisks, no # headings.
 
 OUTPUT
-1. First, a short note titled "How to use this draft" (3-4 lines) in this language: {languages.instruction(language)}
+1. First, a short note titled "How to use this draft" (3-4 lines).
    Include: fill the [PLACEHOLDERS], attach proof, keep a copy, and that a lawyer should review it before anything is filed in court.
 2. Then a line with only "---".
-3. Then the document itself, in English."""
-    text = llm.invoke(prompt).content
+3. Then the document itself."""
+    text = plain_text(llm.invoke(prompt).content)
     citations = guards.verify_citations(text, [(a, t) for a, t, _ in pages])
     text += guards.tenancy_caveat(text)
     bad = [c for c in citations if c["status"] != "verified"]

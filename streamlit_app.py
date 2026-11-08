@@ -279,7 +279,7 @@ if user_msgs:
             box.empty()
 
         if st.session_state.case:
-            st.markdown(case_to_markdown(st.session_state.case))
+            st.markdown(case_to_markdown(st.session_state.case, current_language()))
             st.download_button(
                 "Download case file (JSON)",
                 json.dumps(st.session_state.case, indent=2, ensure_ascii=False),
