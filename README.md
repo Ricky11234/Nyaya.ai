@@ -2,7 +2,7 @@
 
 **Your AI legal friend, in your language.** Nyaya (न्याय) means *justice*.
 
-Nyaya.ai builds on my earlier project [Know Your Laws](https://github.com/Ricky11234/Know_Your_Laws-Agentic-AI-) and adds Hinglish, Hindi and regional language support.
+It answers in English, Hinglish, Hindi and regional languages, warns when you need a real lawyer, checks every citation, scores how well each answer is grounded in the law (and revises it if not), and helps draft notices and complaints.
 
 An Agentic Retrieval-Augmented Generation (RAG) system for answering questions related to Indian laws using legal document retrieval, large language models, and corrective web search.
 
@@ -111,6 +111,14 @@ Every section number, Act name and case name in an answer is checked in code aga
 
 The citation check only covers section numbers, Act names and case names. A second check covers everything else: a separate model (Qwen 3.8 27B, set by `FACT_CHECK_MODEL`) lists each factual claim in the answer (rights, deadlines, amounts, penalties, which authority to approach, helplines) and marks each one as supported or not by the exact sources the answer was given. The app shows the score ("6/7 claims found in the sources") and lists any unsupported claim under the answer. Below 80% the confidence drops one level; below 50% it drops to Low. If the checker fails or hits a rate limit, the answer is still shown, marked "not checked".
 
+### 🔁 Automatic Revision
+
+If the citation check or the fact check flags anything, the main model rewrites the answer once, given the list of problems and the same sources: it corrects each point from the sources, or removes it, or says it isn't sure. Both checks then run again, and the app keeps whichever version has fewer problems. Anything still unresolved stays flagged under the answer.
+
+### 🔍 Searching in the Law's Own Words
+
+People say "anticipatory bail" or "police picked up my brother"; the Acts say "bail to person apprehending arrest" and "person arrested to be informed of grounds of arrest". For common problems, the app adds the Act's own wording to the search (`STATUTE_WORDING` in `src/guards/guards.py`), so the right sections are found.
+
 What the checks can't catch: the checker is itself a model, so it can miss a wrong claim or flag a correct one. That's why every flag is shown to the user rather than hidden, and why the app tells people to confirm with a lawyer.
 
 ### 📁 Case File and 📝 Drafting
@@ -133,36 +141,37 @@ Unedited outputs go to `outputs/raw/` and `outputs/language_tests/`, with a summ
 # 🏗️ System Architecture
 
 ```text
-User Question
+User question (any language) + chat history
         │
         ▼
-Conversation Context
+Rewrite to English question + legal search terms      (GPT-OSS 120B)
         │
         ▼
-Query Rewriting
+Reply language  ·  Lawyer-warning rules               (code)
         │
         ▼
-FAISS Retriever
+FAISS search over the Acts + Act's own wording        (code)
         │
         ▼
-Context Evaluator
+Is this law text enough?                              (GPT-OSS 20B)
         │
  ┌──────┴──────┐
- │             │
  ▼             ▼
 SUFFICIENT   INSUFFICIENT
- │             │
- ▼             ▼
-RAG Answer   Tavily Search
- │             │
- ▼             ▼
-Final Answer Generation
+Answer from  Web search (gov + legal sites)
+the Acts     → answer from the web
+ └──────┬──────┘
+        ▼
+Citation check (code) + groundedness score            (Qwen 3.8 27B)
         │
         ▼
-Source Attribution
+Problems? → rewrite once → check again → keep the better version
         │
         ▼
-User Response
+Flags, old-law / model-law warnings, confidence       (code)
+        │
+        ▼
+Answer + banners + fact check  →  optional case file and draft
 ```
 
 ---
@@ -333,7 +342,7 @@ TAVILY_API_KEY="your_tavily_api_key"
 # 🚧 Known Limitations
 
 * **Free-tier limits:** on Groq's free tier each question uses roughly 6,000-8,000 tokens of the 200,000-token daily allowance, so the app handles about 25-30 questions a day before it pauses (a paid Groq tier removes this).
-* **The fact check is a model too:** numbers and deadlines are now checked against the sources, but by a smaller model that can occasionally miss a wrong claim or flag a correct one. It also adds a few thousand tokens per question.
+* **The fact check is a model too:** numbers and deadlines are now checked against the sources, but by a second model that can occasionally miss a wrong claim or flag a correct one. It also adds a few thousand tokens per question.
 * **Regional languages are beta:** Bengali, Tamil and Odia passed our tests but have been tested less than English, Hinglish and Hindi. Other languages get an English reply.
 * **State laws aren't covered:** rent, stamp duty and many labour rules differ by state. The app says so, but it only has the central Acts listed above.
 * **Not a lawyer:** it gives legal information and drafts, not legal advice.
